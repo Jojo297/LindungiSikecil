@@ -18,6 +18,11 @@
                     alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap">LindungiSiKecil</span>
             </a>
+              <div class="hidden flex-row-reverse md:flex lg:flex">
+                <a href="" class="text-slate-800 font-medium px-3">Beranda</a>
+                <a href="" class="text-slate-800 font-medium px-3">Beranda</a>
+                <a href="" class="text-slate-800 font-medium px-3">Beranda</a>
+            </div>
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 {{-- button --}}
                 <button data-collapse-toggle="navbar-hamburger" type="button"
