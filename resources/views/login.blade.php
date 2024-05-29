@@ -159,7 +159,7 @@
                             </button>
                             <div class="flex justify-evenly mt-5">
 
-                                <a href="./daftar" class="w-full text-center font-medium text-gray-500">Daftar</a>
+                                <a href="/daftar" class="w-full text-center font-medium text-gray-500">Daftar</a>
                             </div>
                         </div>
                     </form>
@@ -178,7 +178,7 @@
             toastr.error('{{ session('error') }}', 'GAGAL!');
         @endif
     </script>
-    @vite('resources/js/app,js')
+    @vite('resources/js/app.js')
 </body>
 
 </html>

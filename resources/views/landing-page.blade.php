@@ -18,8 +18,27 @@
                     alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap">LindungiSiKecil</span>
             </a>
+
+            <div class="hidden flex-row-reverse md:flex lg:flex">
+                <a href="" class="text-slate-800 font-medium px-5">Beranda</a>
+                <a href="" class="text-slate-800 font-medium px-5">Beranda</a>
+                <a href="" class="text-slate-800 font-medium px-5">Beranda</a>
+            </div>
+
+
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                {{-- button --}}
+
+                <div class="justify-between">
+                    <a href="{{ route('login') }}"
+                        class="relative items-center justify-center p-0.5 mr-3 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group hidden lg:inline-flex">
+                        Masuk</a>
+
+                    <a href="/daftar"
+                        class="relative inline-flex items-center justify-center p-0.5  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                        <span
+                            class="relative px-5 py-2.5 transition-all ease-in duration-300 bg-neutral-50 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Daftar</span></a>
+                </div>
+                {{-- button humburger --}}
                 <button data-collapse-toggle="navbar-hamburger" type="button"
                     class="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden lg:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                     aria-controls="navbar-hamburger" aria-expanded="false" onclick="toggleNavbar()">
@@ -65,22 +84,21 @@
     <!-- component -->
     <div class="flex items-center justify-center overflow-hidden  ">
         <div
-            class="relative mx-auto h-full px-4 pt-[20px] pb-20   md:pb-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
-            <div class="flex flex-col items-center justify-between lg:flex-row py-16">
+            class="relative mx-auto h-full px-4 pt-[3rem] pb-20 md:pb-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+            <div class="flex flex-col items-center justify-between lg:flex-row py-16 ">
                 <div class=" relative ">
-                    <div class="lg:max-w-xl lg:pr-5 relative">
+                    <div class="lg:max-w-xl lg:pr-5 lg:mr-32">
                         <h2
                             class="mb-6 max-w-lg text-5xl font-light leading-snug tracking-tight text-g1 sm:text-7xl sm:leading-snug">
-                            We make you look
+                            Yuk, Lindungi Si Kecil dengan
                             <span
-                                class="my-1 inline-block border-b-8 border-g4 bg-white px-4 font-bold text-g4 animate__animated animate__flash">different</span>
+                                class="inline-block border-b-8 border-g4 bg-white px-4 font-bold text-g4 animate__animated animate__flash">imunisasi</span>
                         </h2>
-                        <p class="text-base text-gray-700">Sed ut perspiciatis unde omnis iste natus error sit
-                            voluptatem
-                            accusantium doloremque it.</p>
+                        <p class="text-base text-gray-700">Bantu Anak Tumbuh Sehat, Imunisasi Jangan Dilewatkan! Kasih
+                            Sayang Ibu Terlihat dari Kepeduliannya Terhadap Imunisasi Anak.</p>
                         <div class="mt-10 flex flex-col items-center md:flex-row">
                             <a href="/"
-                                class="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-green-600 px-6 font-medium tracking-wide text-white shadow-md transition hover:bg-blue-800 focus:outline-none md:mr-4 md:mb-0 md:w-auto">
+                                class="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-red-500 px-6 font-medium tracking-wide text-white shadow-md focus:outline-none md:mr-4 md:mb-0 md:w-auto">
                                 View More</a>
                             <a href="/" aria-label=""
                                 class="group inline-flex items-center font-semibold text-g1">Watch how
@@ -97,7 +115,7 @@
 
 
                 </div>
-                <div class="relative pt-[20px] lg:ml-32 lg:block lg:w-1/2">
+                <div class="relative pt-[20px] lg:block lg:w-1/2">
 
                     <div
                         class="abg-orange-400 mx-auto w-fit overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none">
@@ -117,7 +135,7 @@
     {{-- jumbotron selesai --}}
 
 
-    @vite('resources/js/app,js')
+    @vite('resources/js/app.js')
     <script>
         let isNavbarOpen = true;
 

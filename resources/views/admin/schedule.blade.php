@@ -8,6 +8,7 @@
     <title>Jadwal Imunisasi</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css">
 </head>
 
 <body class="bg-red-300">
@@ -17,11 +18,11 @@
     {{-- sidebar selesai --}}
     {{-- content --}}
     <div class="p-4 sm:ml-64">
-
-        <div class="p-4 border-2 border-gray-200 border-dashed bg-slate-50 rounded-lg dark:border-gray-700 ">
+        <div class="p-4 border-2 border-gray-200 border-dashed bg-slate-50 rounded-lg">
+            {{-- button sidebar --}}
             <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
                 aria-controls="default-sidebar" type="button"
-                class="inline-flex items-center p-2 mt-2 ms-3 text-sm bg-red-100 text-gray-500 rounded-lg sm:hidden hover:bg-red-400 hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                class="inline-flex items-center p-2 mt-2 ms-3 text-sm bg-red-100 text-gray-500 rounded-lg sm:hidden hover:bg-red-400 hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400  dark:focus:ring-gray-600">
                 <span class="sr-only">Open sidebar</span>
                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -30,16 +31,17 @@
                     </path>
                 </svg>
             </button>
+            {{-- button sidebar selesai --}}
             <div class="container mx-auto px-4 pt-8 ">
                 <h1
                     class="text-2xl font-sans font-bold text-gray-600 mb-6 underline underline-offset-3 decoration-8 decoration-red-400 dark:decoration-blue-600 lg:text-3xl">
                     Jadwal Imunisasi
                 </h1>
                 {{-- tambah data --}}
-                <div class=" flex pt-5 overflow-hidden lg:flex-none">
+                <div class="flex pt-5 overflow-hidden lg:flex-none">
                     <button data-modal-target="crud-modal" data-modal-toggle="crud-modal">
                         <div
-                            class="w-40 max-w-sm px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+                            class="w-40 max-w-sm px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 overflow-hidden">
                             <div class="grid justify-items-center text-gray-500 hover:text-gray-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="55" fill="currentColor"
                                     class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
@@ -55,40 +57,38 @@
                 </div>
                 {{-- tambah data selesai --}}
                 {{-- table --}}
-                <div class="relative overflow-x-auto mt-10 shadow-md rounded-lg ">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700  bg-gray-200  dark:bg-gray-700 dark:text-gray-400">
-                            <tr align="center">
-                                <th scope="col" class="px-6 py-3">
+                <div class="bg-white mt-10 py-5 px-5 shadow-md rounded-lg">
+                    <table id="myTable" class="stripe display compact" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>
                                     No
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th>
                                     Vaksin
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th>
                                     Umur
                                 </th>
 
-                                <th scope="col" class="px-6 py-3">
+                                <th>
                                     Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($schedules as $schedule => $data)
-                                <tr align="center"
-                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ">
-                                    <th scope="row" width="20"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr>
+                                    <th>
                                         {{ $schedule + 1 }}
                                     </th>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         {{ $data->type_vaccines }}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         {{ $data->year }} tahun {{ $data->month }} bulan
                                     </td>
-                                    <td class="px-6 py-4 ">
+                                    <td>
                                         <div class="grid grid-cols-2">
                                             <div class="col-span-1">
                                                 <a href="#"
@@ -111,6 +111,7 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
@@ -159,8 +160,8 @@
                             <div id="alert-1"
                                 class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                 role="alert">
-                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 20 20">
                                     <path
                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                 </svg>
@@ -248,7 +249,13 @@
     </div>
     {{-- modal tambah selesai --}}
 
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
 
     <script>
         // Ambil referensi ke form
@@ -307,7 +314,7 @@
             toastr.error('{{ session('error') }}', 'GAGAL!');
         @endif
     </script>
-    @vite('resources/js/app,js')
+    @vite('resources/js/app.js')
 </body>
 
 </html>

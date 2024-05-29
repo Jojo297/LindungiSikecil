@@ -12,7 +12,8 @@ class Child extends Model
     protected $fillable = [
         'name',
         'date_of_birth',
-        'gender'
+        'gender',
+        'id_parent'
     ];
     public function parent()
     {

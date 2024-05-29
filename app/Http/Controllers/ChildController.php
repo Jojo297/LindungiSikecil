@@ -83,4 +83,31 @@ class ChildController extends Controller
             }
         }
     }
+
+    public function addChild(Request $request)
+    {
+        $user = Auth::guard('parent')->user();
+
+        $data = Child::create([
+            'name' => $request->name,
+            'date_of_birth' => $request->date,
+            'gender' => $request->gender,
+            'id_parent' => $user->id_parent
+        ]);
+        if ($data->save()) {
+            // redirect
+            return redirect()->route('user.dashboard')->with('success', 'Data berhasil ditambahkan');
+        } else {
+            toastr()->error('Data gagal ditambahkan', 'Gagal');
+            return redirect()->back()->with([
+                'error' => 'Data gagal disimpan!'
+            ]);
+        }
+    }
+    public function events()
+    {
+        $events = Child::all();
+
+        return response()->json($events);
+    }
 }

@@ -1,7 +1,3 @@
-
-
-
-
 // loading
 document.addEventListener('DOMContentLoaded', function() {
     const loadingIndicator = document.getElementById('loading-indicator');

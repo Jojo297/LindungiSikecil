@@ -1,36 +1,54 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Informasi Vaksin</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
-<!-- component -->
 
-<body class="antialiased bg-gradient-to-br from-red-100 to-white">
-    <div class="container mx-auto h-screen flex items-center justify-center">
-        <div class="w-full lg:w-1/2 md:mx-0">
-            <div class="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
-
-                <h2 class="text-2xl font-bold text-gray-800 text-center mb-5">
-                    Admin
-                </h2>
-                {{-- form --}}
-                <form method="POST" action="{{ route('admin.login') }}" class="w-full">
-
+<body class="bg-red-300">
+    {{-- sidebar --}}
+    @extends('layout.sidebar-admin')
+    {{-- sidebar selesai --}}
+    <div class="p-4 sm:ml-64">
+        <div class="p-4 border-2 border-gray-200 border-dashed bg-neutral-50 rounded-lg dark:border-gray-700">
+            {{-- button sidebar --}}
+            <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
+                aria-controls="default-sidebar" type="button"
+                class="inline-flex items-center p-2 mt-2 ms-3 text-sm bg-red-100 text-gray-500 rounded-lg sm:hidden hover:bg-red-400 hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                <span class="sr-only">Open sidebar</span>
+                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd" fill-rule="evenodd"
+                        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+                    </path>
+                </svg>
+            </button>
+            {{-- button sidebar selesai --}}
+            <div class="container mx-auto px-4 pt-8">
+                <h1
+                    class="text-2xl font-sans font-bold text-gray-600 mb-6 underline underline-offset-3 decoration-8 decoration-red-400 dark:decoration-blue-600 lg:text-3xl">
+                    Tambah informasi vaksin
+                </h1>
+            </div>
+            {{-- form tambah data --}}
+            <div class="container mx-auto px-4 pt-8">
+                <form class="mx-auto" id="myform" action="{{ route('admin.tambah.informasi') }}" method="POST">
                     @csrf
-                    {{-- nama pengguna --}}
-                    <div id="input" class="flex flex-col w-full my-5">
-                        <label for="username" class="text-gray-500 text-left mb-2">Nama Pengguna</label>
-                        <input type="text" id="username" name="username" placeholder="Masukkan email anda"
-                            class="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:shadow-lg" />
+                    <div class="mb-5">
+                        <label for="heading" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Judul</label>
+                        <input type="text" id="judul" name="heading"
+                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                            placeholder="Masukkan judul" />
                     </div>
-                    {{-- eror nama pengguna --}}
-                    @error('username')
+                    {{-- eror heading --}}
+                    @error('heading')
                         <div id="alert-1"
                             class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                             role="alert">
@@ -41,7 +59,7 @@
                             </svg>
                             <span class="sr-only">Info</span>
                             <div class="ms-3 text-sm font-medium">
-                                Masukkan nama pengguna!
+                                {{ $message }}
                             </div>
                             <button type="button"
                                 class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
@@ -55,14 +73,11 @@
                             </button>
                         </div>
                     @enderror
-                    {{-- kata sandi --}}
-                    <div id="input" class="flex flex-col w-full my-5">
-                        <label for="password" class="text-gray-500 text-left mb-2">Kata Sandi</label>
-                        <input type="password" id="password" name="password" placeholder="Masukkan kata sandi anda"
-                            class="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:shadow-lg" />
+                    <div class="mb-5">
+                        <textarea name="body" id="editor"></textarea>
                     </div>
-                    {{-- eror kata sandi --}}
-                    @error('password')
+                    {{-- eror body --}}
+                    @error('body')
                         <div id="alert-2"
                             class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                             role="alert">
@@ -73,7 +88,7 @@
                             </svg>
                             <span class="sr-only">Info</span>
                             <div class="ms-3 text-sm font-medium">
-                                Masukkan kata sandi!
+                                {{ $message }}
                             </div>
                             <button type="button"
                                 class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
@@ -87,36 +102,10 @@
                             </button>
                         </div>
                     @enderror
-                    {{-- eror auth --}}
-                    @if (session('error'))
-                        <div id="alert-3"
-                            class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                            role="alert">
-                            <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                            </svg>
-                            <span class="sr-only">Info</span>
-                            <div class="ms-3 text-sm font-medium">
-                                {{ session('error') }}
-                            </div>
-                            <button type="button"
-                                class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-                                data-dismiss-target="#alert-3" aria-label="Close">
-                                <span class="sr-only">Close</span>
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                            </button>
-                        </div>
-                    @endif
                     {{-- loading --}}
-                    <div align="center" id="loading-indicator" class="hidden" role="status">
+                    <div id="loading-indicator" class="hidden ml-[50px]" role="status">
                         <svg aria-hidden="true"
-                            class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-red-500"
+                            class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-500"
                             viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -128,33 +117,28 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                     {{-- loading selesai --}}
-                    {{-- tombol masuk --}}
-                    <div id="button" class="flex flex-col w-full my-5">
-                        <button type="submit" id="button1"
-                            class="w-full py-4 bg-red-400 hover:bg-red-500 rounded-lg text-green-100">
-                            <div class="flex flex-row items-center justify-center">
-                                <div class="mr-2">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="font-bold">Masuk</div>
-                            </div>
-                        </button>
-
-                    </div>
+                    <button type="submit" id="button1"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambahkan
+                        Data</button>
                 </form>
 
             </div>
+            {{-- form tambah data selesai --}}
         </div>
-
-
     </div>
 
     @vite('resources/js/app.js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                extraAllowedContent: 'p(*);'
+            })
+
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 </body>
 
 </html>

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InformationVaccine;
 use App\Models\Parents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class ParentController extends Controller
@@ -67,7 +70,7 @@ class ParentController extends Controller
             'check.required' => 'Harap lengkapi data diatas'
         ]);
         // enkripsi
-        $encryptedNoWa = bcrypt($request->noWa);
+        $encryptedNoWa = Crypt::encryptString($request->noWa);
 
         $inputData = [
             'no_wa' => $encryptedNoWa,
@@ -96,7 +99,7 @@ class ParentController extends Controller
     {
         // Ambil data username, email, dan password dari sesi
         $registerData = session('register_data');
-
+        $passwordHash = Hash::make($registerData['password']);
         // ambil data no whatsaap dari sesi
         $nomor = session('no_wa');
         // dd($nomor);
@@ -113,7 +116,7 @@ class ParentController extends Controller
             $inputData = [
                 'username' => $registerData['username'],
                 'email' => $registerData['email'],
-                'password' => bcrypt($registerData['password']),
+                'password' => $passwordHash,
             ];
             Parents::where('no_wa', $nomor)->update($inputData);
             // Redirect ke halaman selanjutnya
@@ -139,85 +142,101 @@ class ParentController extends Controller
         return view('user-schedule');
     }
 
-    // public function register(Request $request)
-    // {
-    //     // dd($request);
-    //     $request->validate([
-    //         'username'  => 'required',
-    //         'email' => 'required|email|unique:parents,email',
-    //         // 'noWa'  => 'required|unique:parents,no_wa',
-    //         'password'  => 'required|min:8',
-    //         'password2' => 'required|same:password'
-    //     ], [
-    //         'username.required' => 'Masukkan nama pengguna!',
-    //         'email.email' => 'Masukkan email dengan benar!',
-    //         'email.unique' => 'Email yang anda masukkan sudah dimiliki',
-    //         // 'noWa.unique' => 'Nomer whatsaap yang anda masukkan sudah dimiliki',
-    //         'email.required' => 'Masukkan email anda!',
-    //         // 'noWa.required' => 'Masukkan nomer whatsaap anda!',
-    //         // 'noWa.integer' => 'Masukkan angka!',
-    //         'password.required' => 'Masukkan kata sandi!',
-    //         // 'password.confirmed' => 'Kata sandi yang anda masukkan berbeda',
-    //         'password.min' => 'Kata sandi minimal 8 karakter',
-    //         'password2.same' => 'Kata sandi yang anda masukkan berbeda',
-    //         'password2.required' => 'Masukkan konfirmasi kata sandi!'
-    //     ]);
+    public function indexInformationVaccine()
+    {
+        $information = InformationVaccine::paginate(10);
+        return view('informasi', compact('information'));
+    }
+    public function showInformation(string $id)
+    {
+        $detail = InformationVaccine::where('id_information', $id)->first();
+        if (!$detail) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
 
-    //     // $data = Parents::create([
-    //     //     'username' => $request->username,
-    //     //     'email' => $request->username,
-    //     //     'no_wa' => $request->noWa,
-    //     //     'password' => bcrypt($request->password),
-    //     // ]);
-    //     $nomor = $request->noWa;
+        return view('detail-informasi', compact('detail'));
+    }
 
-    //     $inputData = [
-    //         'username' => $request->username,
-    //         'email' => $request->email,
-    //         'no_wa' => $nomor,
-    //         'password' => bcrypt($request->password),
-    //     ];
-    //     // mengirim otp
-    //     if ($nomor) {
-    //         DB::table('parents')->where('no_wa', $nomor)->update(['otp' => null]);
-    //         $otp = rand(100000, 999999);
-    //         // $password = bcrypt($request->password);
-    //         Parents::create([
-    //             // 'username' => $request->username,
-    //             // 'email' => $request->email,
-    //             'no_wa' => $nomor,
-    //             // 'password' => $password,
-    //             'otp' => $otp,
-    //         ]);
-    //         $data = [
-    //             'target' => $nomor,
-    //             'message' => "udah diem aja 😜 : " . $otp
-    //         ];
-    //         $response = Http::withHeaders([
-    //             'Authorization' => env('FONNTE_API_TOKEN')
-    //         ])->post('https://api.fonnte.com/send', $data);
-    //         return redirect()->to(route('user.otp'));
-    //     }
-    // }
+    public function profile()
+    {
+        $parent = Auth::guard('parent')->user();
+        $decryptNoWa = Crypt::decryptString($parent->no_wa);
+        return view('profile', compact('decryptNoWa'));
+    }
 
-    // public function CheckOtp(Request $request)
-    // {
+    public function searchInformation(Request $request)
+    {
+        $query = $request->input('query');
+        $information = InformationVaccine::where('heading', 'LIKE', "%$query%")
+            ->orWhere('body', 'LIKE', "%$query%")
+            ->paginate(10);
 
+        return view('search-result', compact('information'));
+    }
 
-    //     if ($request->isMethod('post') && $request->has('submit-login')) {
-    //         $otp = $request->input('otp');
-    //         $nomor = $request->input('nomor');
-    //         $otp_record = DB::table('parents')->where('nomor', $nomor)->where('otp', $otp)->first();
-    //         if ($otp_record) {
-    //             $expiry_time = $otp_record->waktu + 300;
-    //             if (time() <= $expiry_time) {
-    //                 echo "otp benar";
-    //             } else {
-    //                 echo "otp expired";
-    //             }
-    //         } else {
-    //             echo "otp salah";
-    //         }
-    //     }
-    // }
+    public function editProfile()
+    {
+        $parent = Auth::guard('parent')->user();
+        $decryptNoWa = Crypt::decryptString($parent->no_wa);
+        return view('edit-profile', compact('decryptNoWa', 'parent'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = [];
+        $id_parent = Auth::guard('parent')->user()->id_parent;
+        $inputData = Parents::where('id_parent', $id_parent)->update([
+            'email' => $request->email,
+            'username' => $request->name,
+            'no_wa' => Crypt::encryptString($request->noWa),
+        ]);
+
+        if ($inputData) {
+            return redirect()->route('user.profile')->with('success', 'Data berhasil diubah');
+        } else {
+            return redirect()->back()->with('error', 'Data gagal diubah');
+        }
+    }
+
+    public function indexchangePassword()
+    {
+        return view('change-password');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password1' => [
+                'required',
+                'min:8',
+                function ($attribute, $value, $fail) {
+                    $user = Auth::user();
+                    $hashedPassword = $user->password;
+                    if (!Hash::check($value, $hashedPassword)) {
+                        $fail('Kata sandi yang lama salah!, silahkan coba lagi!');
+                    }
+                },
+            ],
+            'password2' => 'required|min:8',
+            'password3' => 'required|same:password2',
+        ], [
+            'password1.required' => 'Masukkan kata sandi yang lama!',
+            'password2.required' => 'Masukkan kata sandi yang baru!',
+            'password2.min' => 'Kata sandi minimal 8 karakter',
+            'password3.same' => 'Kata sandi yang anda masukkan berbeda',
+            'password3.required' => 'Masukkan konfirmasi kata sandi!'
+        ]);
+
+        $user = Auth::guard('parent')->user();
+        $id_parent = $user->id_parent;
+
+        $inputData = Parents::where('id_parent', $id_parent)->update([
+            'password' => Hash::make($request->password2),
+        ]);
+        if ($inputData) {
+            return redirect()->route('user.profile')->with('success', 'Password anda Berhasil diubah👌');
+        } else {
+            return redirect()->back()->with('error', 'Password anda gagal diubah');
+        }
+    }
 }

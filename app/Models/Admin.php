@@ -27,4 +27,8 @@ class Admin extends AuthenticatableUser implements Authenticatable
     {
         return $this->hasMany(Schedule::class, 'id_admin');
     }
+    public function InformationVaccine()
+    {
+        return $this->hasMany(InformationVaccine::class, 'id_admin');
+    }
 }
