@@ -11,13 +11,14 @@
 <body>
     {{-- navbar --}}
     <nav
-        class="bg-neutral-50 fixed top-0 z-[999] w-full border-b-2 border-gray-200 rounded-br-lg rounded-bl-lg dark:bg-gray-900">
+        class="bg-neutral-50 fixed top-0 z-20 w-full border-b-2 border-gray-200 rounded-br-lg rounded-bl-lg dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="{{ route('user.dashboard') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}" class="h-14"
                     alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap">LindungiSiKecil</span>
             </a>
+<<<<<<< HEAD
 
             <div class="hidden flex-row-reverse md:flex lg:flex">
                 <a href="" class="text-slate-800 font-medium px-5">Beranda</a>
@@ -26,6 +27,13 @@
             </div>
 
 
+=======
+            <div class="hidden flex-row-reverse md:flex lg:flex">
+                <a href="" class="text-slate-800 font-medium px-3">Beranda</a>
+                <a href="" class="text-slate-800 font-medium px-3">Beranda</a>
+                <a href="" class="text-slate-800 font-medium px-3">Beranda</a>
+            </div>
+>>>>>>> 0869f894a566f4a13d1cb2b38d1708092da4168e
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 
                 <div class="justify-between">
@@ -54,7 +62,7 @@
 
         <!-- Dropdown menu -->
         <div class="p-1">
-            <div class="hidden fixed top-0 z-[-999] w-full mt-[90px] md:hidden lg:hidden" id="navbar-hamburger">
+            <div class="hidden fixed top-0 z-10 w-full mt-[90px] md:hidden lg:hidden" id="navbar-hamburger">
                 <ul
                     class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 transition duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700">
                     <li>
@@ -84,8 +92,13 @@
     <!-- component -->
     <div class="flex items-center justify-center overflow-hidden  ">
         <div
+<<<<<<< HEAD
             class="relative mx-auto h-full px-4 pt-[3rem] pb-20 md:pb-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
             <div class="flex flex-col items-center justify-between lg:flex-row py-16 ">
+=======
+            class="relative mx-auto h-full px-4 pt-[40px] pb-20 md:pb-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+            <div class="flex flex-col items-center justify-between lg:flex-row py-16">
+>>>>>>> 0869f894a566f4a13d1cb2b38d1708092da4168e
                 <div class=" relative ">
                     <div class="lg:max-w-xl lg:pr-5 lg:mr-32">
                         <h2
@@ -115,7 +128,11 @@
 
 
                 </div>
+<<<<<<< HEAD
                 <div class="relative pt-[20px] lg:block lg:w-1/2">
+=======
+                <div class="relative pt-[20px] hidden lg:ml-32 lg:block lg:w-1/2">
+>>>>>>> 0869f894a566f4a13d1cb2b38d1708092da4168e
 
                     <div
                         class="abg-orange-400 mx-auto w-fit overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none">
