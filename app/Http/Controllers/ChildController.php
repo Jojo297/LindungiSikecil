@@ -8,6 +8,7 @@ use App\Models\Schedule;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ChildController extends Controller
 {
@@ -45,9 +46,10 @@ class ChildController extends Controller
             $childs = Child::where('id_parent', $parent)->get();
             $childs_with_age = [];
             foreach ($childs as $child) {
+                $id_child = $child->id;
                 $birthDate = $child->date_of_birth;
                 $age = $this->calculateAge($birthDate);
-                $childs_with_age[] = ['child' => $child, 'age' => $age];
+                $childs_with_age[] = ['child' => $child, 'age' => $age, 'id_child' => $id_child];
             }
             return view('dashboard', ['childs' => $childs_with_age]);
         } else {
@@ -109,5 +111,50 @@ class ChildController extends Controller
         $events = Child::all();
 
         return response()->json($events);
+    }
+    public function indexChildProfile(String $id)
+    {
+        $child = Child::find($id);
+        $birthDate = $child->date_of_birth;
+        $age = $this->calculateAge($birthDate);
+        return view('child-profile', compact('child', 'age'));
+    }
+    public function childDelete(String $id)
+    {
+        $child = Child::find($id);
+        if ($child->delete()) {
+            return redirect()->route('user.dashboard')->with('success', 'Data berhasil di hapus');
+        } else {
+            return redirect()->back()->with('error', 'Data gagal di hapus');
+        }
+    }
+    public function childEdit(String $id)
+    {
+        $child = Child::find($id);
+        return view('edit-child', compact('child'));
+    }
+    public function childUpdate(Request $request, String $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'date' => 'required|date',
+            'gender' => 'in:Laki-laki,Perempuan',
+        ], [
+            'name.required' => 'Masukkan nama anak!',
+            'date.required' => 'Masukkan tanggal lahir anak!',
+            'gender.required' => 'Masukkan gender anak!',
+        ]);
+
+        $inputData = Child::where('id', $id)->update([
+            'name' => $request->name,
+            'date_of_birth' => $request->date,
+            'gender' => $request->gender
+        ]);
+
+        if ($inputData) {
+            return redirect()->route('user.child.profile', ['id' => $id])->with('success', 'Data berhasil di ubah');
+        } else {
+            return redirect()->back()->with('error', 'Data gagal di ubah');
+        }
     }
 }

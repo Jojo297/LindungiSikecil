@@ -105,5 +105,9 @@ route::group(['prefix' => 'user',  'middleware' => 'auth:parent', 'as' => 'user.
     // data anak
     Route::post('/add-child', [ChildController::class, 'addChild'])->name('add.child');
     Route::get('/events', [ChildController::class, 'events'])->name('events');
+    Route::get('/child-profile/{id}', [ChildController::class, 'indexChildProfile'])->name('child.profile');
+    Route::get('/profile-anak/delete/{id}', [ChildController::class, 'childDelete'])->name('child.delete');
+    Route::get('/profile-anak/edit/{id}', [ChildController::class, 'childEdit'])->name('child.edit');
+    Route::put('/profile-anak/update/{id}', [ChildController::class, 'childUpdate'])->name('child.update');
 });
 // halaman parents selesai

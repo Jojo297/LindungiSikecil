@@ -158,7 +158,6 @@
                             class="text-white flex mt-2 items-center bg-blue-700 animate transition duration-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-1/2 justify-center lg:w-1/3">
                             Simpan
                         </button>
-
                     </div>
                 </form>
             </div>

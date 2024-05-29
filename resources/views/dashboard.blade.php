@@ -53,7 +53,8 @@
                     <div class="carousel overflow-x-auto hide-scrollbar scroll-smooth">
                         @forelse ($childs as $child_with_age)
                             <div class="carousel-item inline-block">
-                                <a href="#" class="mr-2">
+                                <a href="/user/child-profile/{{ $child_with_age['id_child'] }}" class="mr-2">
+
                                     <div
                                         class="w-52 max-w-sm px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 md:w-64 lg:w-72 overflow-hidden">
 
