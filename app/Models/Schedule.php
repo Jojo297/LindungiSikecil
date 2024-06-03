@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class Schedule extends Model
 {
@@ -11,7 +13,6 @@ class Schedule extends Model
     protected $table = 'immunization_schedule';
     protected $fillable = [
         'id_schedule',
-        'type_vaccines',
         'year',
         'month',
         'id_admin'
@@ -19,5 +20,9 @@ class Schedule extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'id');
+    }
+    public function vaccines(): HasMany
+    {
+        return $this->hasMany(Vaccines::class, 'id_schedule');
     }
 }

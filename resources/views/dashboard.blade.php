@@ -38,7 +38,7 @@
                     </ol>
                 </nav>
             </div>
-            <div class="container mx-auto px-2 pt-8">
+            <div class="container px-2 pt-8">
                 <h1 class="text-2xl font-sans font-bold text-gray-600 mb-6 lg:text-3xl">Selamat Datang,
                     <span class="underline underline-offset-3 decoration-8 decoration-red-400 dark:decoration-blue-600">
 
@@ -54,7 +54,6 @@
                         @forelse ($childs as $child_with_age)
                             <div class="carousel-item inline-block">
                                 <a href="/user/child-profile/{{ $child_with_age['id_child'] }}" class="mr-2">
-
                                     <div
                                         class="w-52 max-w-sm px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 md:w-64 lg:w-72 overflow-hidden">
 
@@ -68,7 +67,6 @@
                                                 </p>
                                             </div>
                                         </div>
-
                                         <div class="flex ">
                                             <span
                                                 class="text-sm text-gray-500 dark:text-gray-400">{{ $child_with_age['age'] }}</span>
@@ -108,48 +106,56 @@
             <hr class="mt-8">
 
             <div class="container mx-auto ">
-                <div class="text-center md:text-left md:flex py-[65px] justify-evenly md:items-center lg:flex">
-
-                    {{-- kelola jadwal imunisasi --}}
-                    <a href="{{ route('user.schedule') }}"
-                        class="z-0 group block max-w-xs mx-auto rounded-lg p-6 mb-8 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 transition hover:bg-red-400 duration-500 hover:ring-red-400 md:mb-0 lg:w-1/2">
-                        <div class="space-x-3">
-                            <div class="text-center">
-                                <h5 align="center"
-                                    class="mb-2 text-2xl text-center font-sans font-semibold tracking-tight text-gray-600 transition group-hover:text-white duration-500  dark:text-white">
-                                    Jadwal
-                                    Imunisasi</h5>
-                            </div>
+                <div class="py-[65px]">
+                    <div class="flex flex-wrap justify-items-center">
+                        {{-- kelola jadwal imunisasi --}}
+                        <div class="w-full md:w-1/2 lg:w-1/3">
+                            <a href="{{ route('user.schedule') }}"
+                                class="z-0 group block max-w-xs mx-auto rounded-lg p-6 mb-8 bg-white ring-1 ring-slate-900/5 shadow-md space-y-3 transition hover:bg-red-400 duration-500 hover:ring-red-400">
+                                <div class="space-x-3">
+                                    <div class="text-center">
+                                        <h5 align="center"
+                                            class="mb-2 text-2xl text-center font-sans font-semibold tracking-tight text-gray-600 transition group-hover:text-white duration-500 dark:text-white">
+                                            Jadwal
+                                            Imunisasi</h5>
+                                    </div>
+                                </div>
+                                <img src="{{ asset('image/calendar_clock_schedule.png') }}" class=" w-full"
+                                    alt="" />
+                            </a>
                         </div>
-                        <img src="{{ asset('image/calendar_clock_schedule.png') }}" class=" w-full" alt="" />
-                    </a>
 
 
-                    {{-- kelola infomasi vaksin --}}
-                    <a href="{{ route('user.information-vaccine') }}"
-                        class="group block max-w-xs mx-auto rounded-lg p-6 mb-8 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 transition hover:bg-red-400 duration-500 hover:ring-red-400 lg:mb-0 lg:w-1/2">
-                        <div class="space-x-3">
-                            <div class="text-center">
-                                <h5 align="center"
-                                    class="text-center mb-2 text-2xl font-semibold tracking-tight text-gray-600  transition group-hover:text-white duration-500  dark:text-white">
-                                    Informasi Vaksin</h5>
-                            </div>
+                        {{-- kelola infomasi vaksin --}}
+                        <div class="w-full md:w-1/2 lg:w-1/3">
+                            <a href="{{ route('user.information-vaccine') }}"
+                                class="group block max-w-xs mx-auto rounded-lg p-6 mb-8 bg-white ring-1 ring-slate-900/5 shadow-md space-y-3 transition hover:bg-red-400 duration-500 hover:ring-red-400">
+                                <div class="space-x-3">
+                                    <div class="text-center">
+                                        <h5 align="center"
+                                            class="text-center mb-2 text-2xl font-semibold tracking-tight text-gray-600  transition group-hover:text-white duration-500  dark:text-white">
+                                            Informasi Vaksin</h5>
+                                    </div>
+                                </div>
+                                <img src="{{ asset('image/informasi-vaksin.png') }}" class="w-full" alt="" />
+                            </a>
                         </div>
-                        <img src="{{ asset('image/informasi-vaksin.png') }}" class=" w-full" alt="" />
-                    </a>
 
-                    {{-- kelola grafik pertumbuhan anak --}}
-                    <a href="#"
-                        class="group block max-w-xs mx-auto rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 transition hover:bg-red-400 duration-500 hover:ring-red-400 md:w-1/5 md:flex-none lg:w-1/2">
-                        <div class="space-x-3">
-                            <div class="text-center">
-                                <h5 align="center"
-                                    class="text-center mb-2 text-2xl font-semibold tracking-tight text-gray-600  transition group-hover:text-white duration-500  dark:text-white">
-                                    Grafik Pertumbuhan anak</h5>
-                            </div>
+                        {{-- kelola grafik pertumbuhan anak --}}
+                        <div class="w-full md:w-full lg:w-1/3">
+                            <a href="{{ route('user.growth.chart') }}"
+                                class="group block max-w-xs mx-auto rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-md space-y-3 transition hover:bg-red-400 duration-500 hover:ring-red-400">
+                                <div class="space-x-3">
+                                    <div class="text-center">
+                                        <h5 align="center"
+                                            class="text-center mb-2 text-2xl font-semibold tracking-tight text-gray-600  transition group-hover:text-white duration-500  dark:text-white">
+                                            Grafik Pertumbuhan anak</h5>
+                                    </div>
+                                </div>
+                                <img src="{{ asset('image/graph.png') }}" class=" w-full" alt="" />
+                            </a>
                         </div>
-                        <img src="{{ asset('image/graph.png') }}" class=" w-full" alt="" />
-                    </a>
+                    </div>
                 </div>
             </div>
 
@@ -226,7 +232,7 @@
                                         <input datepicker datepicker-format="yyyy/mm/dd" id="date"
                                             name="date" type="text"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Select date">
+                                            placeholder="Masukkan tanggal lahir">
                                     </div>
                                 </div>
                                 {{-- input tanggal lahir selesai --}}
@@ -243,7 +249,6 @@
                                     <span class="sr-only">Info</span>
                                     <div class="ms-3 text-sm font-medium" id="date-error-message">
                                     </div>
-
                                 </div>
                                 {{-- eror date selesai --}}
 

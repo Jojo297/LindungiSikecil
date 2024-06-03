@@ -17,8 +17,8 @@
 
     <div class="p-4 pt-[90px]">
         <div class="p-4 border-2 border-gray-200 border-dashed bg-neutral-50 rounded-lg h-screen">
+            {{-- breadcrumb --}}
             <div class="container px-3 pt-3">
-                {{-- breadcrumb --}}
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                         <li class="inline-flex items-center">

@@ -5,10 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Jadwal Imunisasi</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+
+    {{-- delete vaccine --}}
+    <script>
+        // console.log(vaccineId);
+        $(document).ready(function() {
+            $(document).on('click', '.delete-button', function() {
+                var vaccineId = $(this).data('id');
+                var deleteUrl = 'admin/vaccine/' + vaccineId;
+                var token = $(this).data("token");
+                console.log(vaccineId, deleteUrl, token);
+                $.ajax({
+                    url: '/admin/vaccine/' + vaccineId,
+                    type: 'DELETE',
+                    data: {
+                        "id_vaccine": vaccineId,
+                        "_method": 'DELETE',
+                        "_token": token,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('oke');
+                            // Remove the deleted item from the UI
+                            $('#vaccine-' + vaccineId).remove();
+                        } else {
+                            alert(response.error);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr
+                            .responseText
+                        ); // Menampilkan pesan kesalahan yang diberikan oleh server
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+    {{-- delete vaccine selesai --}}
+
+    {{-- edit vaccine --}}
+    <script>
+        // $(document).ready(function() {
+        //     var vaccineId = $(this).data('id');
+        //     $('.delete-button-' + vaccineId).on('click', function() {
+        //         // Remove the deleted item from the UI
+        //         $('#vaccine-' + vaccineId).remove();
+
+        //     });
+        // });
+    </script>
+    {{-- edit vaccine selesai --}}
 </head>
 
 <body class="bg-red-300">
@@ -65,10 +120,10 @@
                                     No
                                 </th>
                                 <th>
-                                    Vaksin
+                                    Umur
                                 </th>
                                 <th>
-                                    Umur
+                                    Vaksin
                                 </th>
 
                                 <th>
@@ -77,37 +132,332 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($schedules as $schedule => $data)
+                            @foreach ($schedules as $schedule)
                                 <tr>
                                     <th>
-                                        {{ $schedule + 1 }}
+                                        {{-- {{ $index + 1 }} --}}
                                     </th>
                                     <td>
-                                        {{ $data->type_vaccines }}
+                                        {{ $schedule->year }} tahun {{ $schedule->month }} bulan
                                     </td>
                                     <td>
-                                        {{ $data->year }} tahun {{ $data->month }} bulan
+                                        <button data-modal-target="modal-{{ $schedule->id_schedule }}"
+                                            data-modal-toggle="modal-{{ $schedule->id_schedule }}"
+                                            class="font-medium text-blue-600 dark:text-blue-500 cursor-pointer hover:underline">lihat
+                                            vaksin</button>
                                     </td>
                                     <td>
-                                        <div class="grid grid-cols-2">
-                                            <div class="col-span-1">
-                                                <a href="#"
-                                                    class=" font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                            </div>
-
+                                        <div class="">
                                             <div class="grid-cols-1">
-                                                <form method="POST" onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                    action="{{ route('admin.schedule.destroy', $data->id_schedule) }}">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit"
-                                                        class="font-medium text-red-600 dark:text-blue-500 cursor-pointer hover:underline">Hapus</button>
-                                                </form>
+                                                <button data-modal-target="modal-delete-{{ $schedule->id_schedule }}"
+                                                    data-modal-toggle="modal-delete-{{ $schedule->id_schedule }}"
+                                                    class="font-medium text-red-600 dark:text-blue-500 cursor-pointer hover:underline">Hapus</button>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                            @endforelse
+
+                                {{-- modal validasi hapus --}}
+                                <div id="modal-delete-{{ $schedule->id_schedule }}" tabindex="-1"
+                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full animated fadeIn faster">
+                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <button type="button"
+                                                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-hide="modal-delete-{{ $schedule->id_schedule }}">
+                                                <svg class="w-3 h-3" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                            <div class="p-4 md:p-5 text-center">
+                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 20 20">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                </svg>
+                                                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                    Are
+                                                    you
+                                                    Apakah anda yakin ingin menghapus artikel ini?</h3>
+                                                <form method="POST"
+                                                    action="{{ route('admin.schedule.destroy', $schedule->id_schedule) }}">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                                        Ya, saya yakin
+                                                    </button>
+
+                                                    <button data-modal-hide="modal-delete-{{ $schedule->id_schedule }}"
+                                                        type="button"
+                                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- modal validasi hapus --}}
+
+                                <!-- modal lihat vaksin -->
+                                <div id="modal-{{ $schedule->id_schedule }}" tabindex="-2" aria-hidden="true"
+                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <!-- Modal header -->
+                                            <div
+                                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                    Vaksin
+                                                </h3>
+                                                <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-modal-toggle="modal-{{ $schedule->id_schedule }}">
+                                                    <svg class="w-3 h-3" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 14 14">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="p-4 md:p-5">
+                                                <p class="text-gray-500 dark:text-gray-400 mb-4">Umur
+                                                    {{ $schedule->year }} tahun {{ $schedule->month }} bulan:</p>
+
+                                                <ul class="space-y-4 mb-4">
+                                                    @foreach ($vaccines->where('id_schedule', $schedule->id_schedule) as $vaccine)
+                                                        <li>
+                                                            <input type="radio" id="job-1" name="job"
+                                                                value="job-1" class="hidden peer" required />
+                                                            <label for="job-1"
+                                                                class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                                                <div class="block">
+                                                                    <div class="w-full text-lg font-semibold">
+                                                                        {{ $vaccine->type_vaccine }}
+                                                                    </div>
+
+                                                                </div>
+
+                                                                </form>
+
+                                                            </label>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <button data-modal-target="modal-edit-{{ $schedule->id_schedule }}"
+                                                    data-modal-toggle="modal-edit-{{ $schedule->id_schedule }}"
+                                                    class="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    Ubah / Tambah data
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- modal lihat vaksin selesai --}}
+
+                                <!-- modal edit -->
+                                <div id="modal-edit-{{ $schedule->id_schedule }}" tabindex="-1" aria-hidden="true"
+                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[100] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <!-- Modal header -->
+                                            <div
+                                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                    Ubah Jadwal Imunisasi
+                                                </h3>
+                                                <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-modal-toggle="modal-edit-{{ $schedule->id_schedule }}">
+                                                    <svg class="w-3 h-3" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 14 14">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="p-4 md:p-5">
+                                                <form id="schedule-form"
+                                                    action="/admin/schedules/edit/{{ $schedule->id_schedule }}"
+                                                    class="p-4 md:p-5" method="POST">
+                                                    @csrf @method('POST')
+                                                    <div class="grid mb-4 grid-cols-2">
+                                                        <div class="col-span-2">
+                                                            <label for="umur"
+                                                                class="block mb-1 mt-2 text-sm font-medium text-gray-900 dark:text-white">Umur</label>
+                                                        </div>
+                                                        {{-- input year --}}
+                                                        <div class="col-span-1 text-center lg:col-span-1">
+                                                            <label for="price"
+                                                                class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">Tahun</label>
+                                                            <input type="number" name="year" id="year"
+                                                                value="{{ $schedule->year }}"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm mx-auto rounded-lg h-10 focus:ring-primary-600 focus:border-primary-600 block w-20 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                        </div>
+                                                        {{-- input year selesai --}}
+
+                                                        {{-- input month --}}
+                                                        <div class="col-span-1 text-center lg:col-span-1">
+                                                            <label for="category"
+                                                                class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">Bulan</label>
+                                                            <input type="number" id="month" name="month"
+                                                                value="{{ $schedule->month }}"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm mx-auto rounded-lg h-10 focus:ring-primary-500 focus:border-primary-500 block w-20 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                            </input>
+                                                        </div>
+                                                        {{-- input month selesai --}}
+
+                                                        {{-- eror year --}}
+                                                        <div id="alert-1" class="col-span-1 mt-3"
+                                                            style="display: none;">
+                                                            <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                                                role="alert">
+                                                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path
+                                                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                                                </svg>
+                                                                <span class="sr-only">Info</span>
+                                                                <div class="ms-3 text-sm font-medium"
+                                                                    id="year-error-message">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- eror year selesai --}}
+                                                        {{-- eror month --}}
+                                                        <div id="alert-2" class="col-span-1 ml-2 mt-3"
+                                                            style="display: none;">
+                                                            <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                                                role="alert">
+                                                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path
+                                                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                                                </svg>
+                                                                <span class="sr-only">Info</span>
+                                                                <div class="ms-3 text-sm font-medium"
+                                                                    id="month-error-message">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- eror month selesai --}}
+                                                    </div>
+                                                    {{-- input vaksin --}}
+                                                    <div class="col-span-2">
+                                                        <label for="name"
+                                                            class="block mb-4 text-sm font-medium text-gray-900 dark:text-white">Jenis
+                                                            vaksin</label>
+                                                        <div class="relative">
+                                                            <div class="inset-y-0 start-0 ">
+                                                                <input type="text" name="vaccins" id="vaccins"
+                                                                    class="bg-gray-50 border mb-5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                                    placeholder="Masukkan jenis vaksin">
+                                                                <button type="button" id="add-vaccin"
+                                                                    data-token1="{{ csrf_token() }}"
+                                                                    class="text-white absolute end-[3px] bottom-[3px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">Masukkan</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- input vaksin selesai --}}
+
+                                                    {{-- eror vaksin --}}
+                                                    <div id="alert-3" class="col-span-1 ml-2 mt-3"
+                                                        style="display: none;">
+                                                        <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                                            role="alert">
+                                                            <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                                viewBox="0 0 20 20">
+                                                                <path
+                                                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                                            </svg>
+                                                            <span class="sr-only">Info</span>
+                                                            <div class="ms-3 text-sm font-medium"
+                                                                id="vaccins-error-message">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- eror vaksin selesai --}}
+                                                    <input type=hidden id="id-schedule"
+                                                        value="{{ $schedule->id_schedule }}">
+                                                    <div id="vaccin-list"
+                                                        class="col-span-2 text-center font-medium text-gray-900 mb-3">
+                                                        <ul id="list-vaccine" class="space-y-4 mb-4">
+                                                            @foreach ($vaccines->where('id_schedule', $schedule->id_schedule) as $vaccine)
+                                                                <li id="vaccine-{{ $vaccine->id_vaccine }}">
+                                                                    <label for="job-1"
+                                                                        class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                                                        <div class="block">
+                                                                            <div class="w-full text-lg font-semibold">
+                                                                                {{ $vaccine->type_vaccine }}
+                                                                            </div>
+                                                                            <input type="text" name="faksin1[]"
+                                                                                value="{{ $vaccine->type_vaccine }}"
+                                                                                class="hidden">
+                                                                        </div>
+                                                                        <button type="button" class="delete-button"
+                                                                            id="delete-button-{{ $vaccine->id_vaccine }}"
+                                                                            data-id="{{ $vaccine->id_vaccine }}"
+                                                                            data-token="{{ csrf_token() }}">
+                                                                            @csrf
+                                                                            <svg class="w-5 h-5"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 448 512">
+                                                                                <path fill="#e83030"
+                                                                                    d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </label>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        {{-- <input type="text" name="faksin[]">
+                                                <div class="py-1" name="vaccin[]">
+                                                    "HIV"
+                                                    <button class="delete-vaccin ml-2 text-red-700 ">X</button>
+                                                </div>
+                                                <input type="text" name="faksin[]">
+                                                <div class="py-1" name="vaccin[]">
+                                                    "Polio 1"
+                                                    <button class="delete-vaccin ml-2 text-red-700 ">X</button>
+                                                </div> --}}
+                                                    </div>
+                                                    <hr>
+
+                                                    <button type="submit" id="submit-button1"
+                                                        class="text-white inline-flex mt-2 items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        Ubah jadwal imunisasi
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- modal edit selesai --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -116,6 +466,8 @@
         </div>
     </div>
     {{-- content selesai --}}
+
+
 
     <!-- modal tambah -->
     <div id="crud-modal" tabindex="-1" aria-hidden="true"
@@ -133,8 +485,8 @@
                         data-modal-toggle="crud-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
@@ -144,38 +496,9 @@
                     method="POST">
                     @csrf
                     <div class="grid mb-4 grid-cols-2">
-                        {{-- input vaksin --}}
-                        <div class="col-span-2">
-                            <label for="name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis
-                                vaksin</label>
-                            <input type="text" name="vaccins" id="name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Masukkan jenis vaksin">
-                        </div>
-                        {{-- input vaksin selesai --}}
-
-                        {{-- eror vaksin --}}
-                        <div id="eror-vaksin" class="hidden col-span-2 mt-3">
-                            <div id="alert-1"
-                                class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                                role="alert">
-                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                </svg>
-                                <span class="sr-only">Info</span>
-                                <div class="ms-3 text-sm font-medium">
-                                    Masukkan jenis vaksin!
-                                </div>
-                            </div>
-                        </div>
-                        {{-- eror vaksin selesai --}}
                         <div class="col-span-2">
                             <label for="umur"
-                                class="block mb-1 mt-4 text-sm font-medium text-gray-900 dark:text-white">Umur</label>
-                            <hr>
+                                class="block mb-1 mt-2 text-sm font-medium text-gray-900 dark:text-white">Umur</label>
                         </div>
                         {{-- input year --}}
                         <div class="col-span-1 text-center lg:col-span-1">
@@ -197,9 +520,9 @@
                         {{-- input month selesai --}}
 
                         {{-- eror year --}}
-                        <div id="eror-year" class="hidden col-span-2 mt-3">
-                            <div id="alert-2"
-                                class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        <div id="alert-1" class="col-span-1 mt-3" style="display: none;">
+                            <div class="flex items-center p-4 mb-4
+                            text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                 role="alert">
                                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -207,16 +530,14 @@
                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                 </svg>
                                 <span class="sr-only">Info</span>
-                                <div class="ms-3 text-sm font-medium">
-                                    Masukkan tahun!
+                                <div class="ms-3 text-sm font-medium" id="year-error-message">
                                 </div>
                             </div>
                         </div>
                         {{-- eror year selesai --}}
                         {{-- eror month --}}
-                        <div id="eror-month" class="hidden col-span-2 mt-3">
-                            <div id="alert-3"
-                                class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        <div id="alert-2" class="col-span-1 ml-2 mt-3" style="display: none;">
+                            <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                 role="alert">
                                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -224,15 +545,62 @@
                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                 </svg>
                                 <span class="sr-only">Info</span>
-                                <div class="ms-3 text-sm font-medium">
-                                    Masukkan bulan!
+                                <div class="ms-3 text-sm font-medium" id="month-error-message">
                                 </div>
-
                             </div>
                         </div>
                         {{-- eror month selesai --}}
                     </div>
+                    {{-- input vaksin --}}
+                    <div class="col-span-2">
+                        <label for="name"
+                            class="block mb-4 text-sm font-medium text-gray-900 dark:text-white">Jenis
+                            vaksin</label>
+                        <div class="relative">
+                            <div class="inset-y-0 start-0 ">
+                                <input type="text" name="vaccins" id="vaccins1"
+                                    class="bg-gray-50 border mb-5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Masukkan jenis vaksin">
+                                <button type="button" id="add-vaccin1"
+                                    class="text-white absolute end-[3px] bottom-[3px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">Masukkan</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- input vaksin selesai --}}
+
+                    {{-- eror vaksin --}}
+                    <div id="alert-3" class="col-span-1 ml-2 mt-3" style="display: none;">
+                        <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert">
+                            <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Info</span>
+                            <div class="ms-3 text-sm font-medium" id="vaccins-error-message">
+                            </div>
+                        </div>
+                    </div>
+                    {{-- eror vaksin selesai --}}
+
+                    <div id="vaccin-list" class="col-span-2 text-center font-medium text-gray-900 mb-3">
+                        <ul id="list-vaccine1">
+
+                        </ul>
+                        {{-- <input type="text" name="faksin[]">
+                        <div class="py-1" name="vaccin[]">
+                            "HIV"
+                            <button class="delete-vaccin ml-2 text-red-700 ">X</button>
+                        </div>
+                        <input type="text" name="faksin[]">
+                        <div class="py-1" name="vaccin[]">
+                            "Polio 1"
+                            <button class="delete-vaccin ml-2 text-red-700 ">X</button>
+                        </div> --}}
+                    </div>
                     <hr>
+
                     <button type="submit" id="submit-button"
                         class="text-white inline-flex mt-2 items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -249,61 +617,210 @@
     </div>
     {{-- modal tambah selesai --}}
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+
+
+
+    {{-- add vaccine --}}
+    <script type="text/javascript">
+        const vaccinList = document.getElementById('list-vaccine1');
+        const addVaccinButton = document.getElementById('add-vaccin1');
+        let vaccins = [];
+
+        addVaccinButton.addEventListener('click', () => {
+            const vaccinInput = document.getElementById('vaccins1');
+            const vaccinValue = vaccinInput.value.trim();
+
+            if (vaccinValue !== '') {
+                vaccins.push(vaccinValue);
+                // updateJsonString();
+                vaccinInput.value = '';
+
+                const vaccinListItem = document.createElement('li');
+                vaccinListItem.id = 'vaccine-edit-' + vaccinValue;
+                vaccinListItem.classList.add('py-1');
+                vaccinListItem.innerHTML = `
+            <label for="job-1" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
+                <div class="block">
+                    <div class="w-full text-lg font-semibold">
+                        ${vaccinValue}
+                    </div>
+                    <input type="text" name="faksin[]" value="${vaccinValue}" class="hidden">
+                </div>
+                <button type="button" class="delete-button-vaccine" data-id="${vaccinValue}">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path fill="#e83030" d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                    </svg>
+                </button>
+            </label>
+        `;
+
+                vaccinList.appendChild(vaccinListItem);
+
+                const deleteVaccinButton = vaccinListItem.querySelector('.delete-button-vaccine');
+                deleteVaccinButton.addEventListener('click', () => {
+                    const index = vaccins.indexOf(vaccinValue);
+                    if (index !== -1) {
+                        vaccins.splice(index, 1);
+                        vaccinListItem.remove();
+                    }
+                });
+
+                // const vaccinInputField = document.createElement('input');
+                // vaccinInputField.type = 'text';
+                // vaccinInputField.classList.add('hidden');
+                // vaccinInputField.name = 'faksin[]';
+                // vaccinInputField.value = vaccinValue;
+                // vaccinList.appendChild(vaccinInputField);
+
+                // const vaccinListItem = document.createElement('div');
+                // vaccinListItem.classList.add('py-1');
+                // vaccinListItem.textContent = vaccinValue;
+                // vaccinListItem.innerHTML +=
+                //     '<button class="delete-vaccin ml-2 text-red-700 ">X</button>';
+                // // vaccinListItem.setAttribute('name', 'vaccin[]'); // add name attribute
+                // vaccinList.appendChild(vaccinListItem);
+
+                // const deleteVaccinButton = vaccinListItem.querySelector('.delete-vaccin');
+                // deleteVaccinButton.addEventListener('click', () => {
+                //     const index = vaccins.indexOf(vaccinValue);
+                //     if (index !== -1) {
+                //         vaccins.splice(index, 1);
+                //         vaccinListItem.remove();
+                //     }
+                // });
+
+            }
+        });
+    </script>
+    {{-- add vaccine selesai --}}
+
+    {{-- edit vaccine --}}
+    <script type="text/javascript">
+        const vaccinList1 = document.getElementById('list-vaccine');
+        const addVaccinButton1 = document.getElementById('add-vaccin');
+        let vaccins1 = [];
+
+        addVaccinButton1.addEventListener('click', () => {
+            const vaccinInput1 = document.getElementById('vaccins');
+            const vaccinValue1 = vaccinInput1.value.trim();
+
+            if (vaccinValue1 !== '') {
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                let scheduleId = document.getElementById("id-schedule").value;
+
+                console.log(scheduleId, token, vaccinValue1);
+                $.ajax({
+                    url: '/admin/insert-vaccine',
+                    type: 'POST',
+                    data: {
+                        "id_schedule": scheduleId,
+                        "type_vaccine": vaccinValue1,
+                        "_method": 'POST',
+                        "_token": token,
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            const newVaccineId = data.id_vaccine;
+                            console.log(newVaccineId);
+                            vaccins1.push({
+                                id: newVaccineId,
+                                type: vaccinValue1
+                            });
+                            vaccinInput1.value = '';
+
+                            const vaccinListItem1 = document.createElement('li');
+                            vaccinListItem1.id = 'vaccine-' + newVaccineId;
+                            vaccinListItem1.innerHTML = `
+                        <label for="job-1" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
+                            <div class="block">
+                                <div class="w-full text-lg font-semibold">
+                                    ${vaccinValue1}
+                                </div>
+                                <input type="text" name="faksin1[]" class="hidden" value="${vaccinValue1}">
+                            </div>
+                            <button type="button" class="delete-button" id="delete-button-${newVaccineId}" data-id="${newVaccineId}" data-token="${token}">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="#e83030" d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                                </svg>
+                            </button>
+                        </label>
+                    `;
+
+                            vaccinList1.appendChild(vaccinListItem1);
+
+                            // const deleteVaccinButton1 = vaccinListItem1.querySelector(
+                            //     '.delete-button');
+                            // deleteVaccinButton1.addEventListener('click', () => {
+                            //     const index = vaccins1.findIndex(v => v.id === newVaccineId);
+                            //     if (index !== -1) {
+                            //         vaccins1.splice(index, 1);
+                            //         vaccinListItem1.remove();
+                            //     }
+                            // });
+                        } else {
+                            alert('Gagal menambahkan vaksin. Silakan coba lagi.');
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+
+            }
+        });
+    </script>
+    {{-- edit vaccine selesai --}}
+
+    {{-- data table --}}
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
         });
     </script>
+    {{-- data table selesai --}}
 
+    {{-- validation --}}
     <script>
-        // Ambil referensi ke form
-        const form = document.getElementById('schedule-form');
-
-        // Tambahkan event listener pada form
-        form.addEventListener('submit', function(event) {
-            // Hindari perilaku default form
-            event.preventDefault();
-
-            // Ambil referensi ke inputan
-            const vaccinsInput = document.getElementById('name');
-            const erorVaccins = document.getElementById('eror-vaksin');
-            const yearInput = document.getElementById('year');
-            const erorYear = document.getElementById('eror-year');
-            const monthInput = document.getElementById('month');
-            const erorMonth = document.getElementById('eror-month');
-
-            // Cek apakah inputan kosong
-            if (vaccinsInput.value.trim() === '') {
-                // Tampilkan pesan error
-                erorVaccins.classList.remove('hidden');
-                return;
-            } else {
-                // Sembunyikan pesan error jika inputan tidak kosong
-                erorVaccins.classList.add('hidden');
-            }
-
-            if (yearInput.value.trim() === '') {
-                // Tampilkan pesan error
-                erorYear.classList.remove('hidden');
-                return;
-            } else {
-                erorYear.classList.add('hidden')
-            }
-
-            if (monthInput.value.trim() === '') {
-                // Tampilkan pesan error
-                erorMonth.classList.remove('hidden');
-                return;
-            } else {
-                erorMonth.classList.add('hidden');
-            }
-
-            // Jika inputan tidak kosong, kirim formulir
-            form.submit();
+        $(document).ready(function() {
+            $("#schedule-form").validate({
+                rules: {
+                    year: "required",
+                    month: {
+                        required: true
+                    },
+                    vaccins: {
+                        required: {
+                            depends: function(element) {
+                                return ($("#vaccin-list").children().length === 0);
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    year: "Masukkan tahun!",
+                    month: {
+                        required: "Masukkan bulan!"
+                    },
+                    vaccins: "Masukkan jenis vaksin!"
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("id") == "year") {
+                        $("#alert-1").show();
+                        $("#year-error-message").html(error.text());
+                    } else if (element.attr("id") == "month") {
+                        $("#alert-2").show();
+                        $("#month-error-message").html(error.text());
+                    } else if (element.attr("id") == "vaccins") {
+                        $("#alert-3").show();
+                        $("#vaccins-error-message").html(error.text());
+                    }
+                }
+            });
         });
     </script>
+    {{-- validation selesai --}}
+
     <script>
         //message with toastr
         @if (session()->has('success'))

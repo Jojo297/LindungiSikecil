@@ -4,7 +4,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthParentsController;
 use App\Http\Controllers\ChildController;
+use App\Http\Controllers\growthChildController;
 use App\Http\Controllers\ParentController;
+use App\Http\Controllers\ScheduleController;
 use App\Models\InformationVaccine;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -66,10 +68,13 @@ route::group(['prefix' => 'admin', 'middleware' => ['auth:admin'], 'as' => 'admi
     })->name('admin.dashboard');
 
     // kelola jadwal imunisasi
-    Route::get('/schedule', [AdminController::class, 'indexSchedule'])->name('schedule');
-    Route::post('/schedule-proses', [AdminController::class, 'insertSchedule'])->name('schedule.insert');
-    Route::get('/schedules/{id_schedule}/edit', [AdminController::class, 'edit'])->name('schedules.edit');
-    Route::delete('/schedule/delete/{id}', [AdminController::class, 'destroy'])->name('schedule.destroy');
+    Route::get('/schedule', [ScheduleController::class, 'indexSchedule'])->name('schedule');
+    Route::post('/schedule-proses', [ScheduleController::class, 'insertSchedule'])->name('schedule.insert');
+    Route::post('/schedules/edit/{id}', [ScheduleController::class, 'editSchedule'])->name('schedules.edit');
+    Route::delete('/schedule/delete/{id}', [ScheduleController::class, 'destroyAll'])->name('schedule.destroy');
+    Route::delete('/vaccine/{id}', [ScheduleController::class, 'destroyVaccine'])->name('vaccine.destroy');
+    Route::post('/insert-vaccine', [ScheduleController::class, 'insertVaccine'])->name('insert.vaccine');
+
 
     // kelola informasi vaksin
     Route::get('/information-vaccine', [AdminController::class, 'indexInformationVaccine'])->name('information-vaccine');
@@ -101,6 +106,10 @@ route::group(['prefix' => 'user',  'middleware' => 'auth:parent', 'as' => 'user.
     Route::get('/information-vaccine', [ParentController::class, 'indexInformationVaccine'])->name('information-vaccine');
     Route::get('/detail-informasi/{id}', [ParentController::class, 'showInformation'])->name('detail.informasi');
     Route::post('/search-informasi', [ParentController::class, 'searchInformation'])->name('search.informasi');
+
+    // halaman pertumbuhan anak
+    Route::get('/growth-chart', [growthChildController::class, 'indexGrowthChart'])->name('growth.chart');
+    Route::get('/chart/{id}', [growthChildController::class, 'show'])->name('growth.chart.show');
 
     // data anak
     Route::post('/add-child', [ChildController::class, 'addChild'])->name('add.child');
