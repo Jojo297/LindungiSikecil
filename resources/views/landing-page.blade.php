@@ -247,9 +247,11 @@
                             <h2 class="text-gray-900 text-lg title-font font-medium">Jadwal Imunisasi</h2>
                         </div>
                         <div class="flex-grow">
-                            <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four
-                                dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
-                            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                            <p class="leading-relaxed text-base">Melihat jadwal imunisasi anak sesuai dengan jadwal
+                                imunisasi yang ada di IDAI (Ikatan Dokter Anak Indonesia).</p>
+                            <a href="https://www.idai.or.id/artikel/klinik/imunisasi/jadwal-imunisasi-anak-idai"
+                                target="_blank" class="mt-3 text-indigo-500 inline-flex items-center">Lihat lebih
+                                lanjut
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2"
                                     viewBox="0 0 24 24">
@@ -276,9 +278,11 @@
                             <h2 class="text-gray-900 text-lg title-font font-medium">Grafik Pertumbuhan Anak</h2>
                         </div>
                         <div class="flex-grow">
-                            <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four
-                                dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
-                            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                            <p class="leading-relaxed text-base">Memantau pertumbuhan anak dengan grafik yang mudah
+                                dimengerti.</p>
+                            <a href="https://www.idai.or.id/professional-resources/kurva-pertumbuhan/kurva-pertumbuhan-who"
+                                target="_blank" class="mt-3 text-indigo-500 inline-flex items-center">Lihat lebih
+                                lanjut
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2"
                                     viewBox="0 0 24 24">
@@ -304,9 +308,9 @@
                             <h2 class="text-gray-900 text-lg title-font font-medium">Informasi Vaksin</h2>
                         </div>
                         <div class="flex-grow">
-                            <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four
-                                dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
-                            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                            <p class="leading-relaxed text-base">Berbagai macam informasi mengenai vaksin yang dengan
+                                mudah untuk dicari.</p>
+                            <a href="/login" class="mt-3 text-indigo-500 inline-flex items-center">Lihat lebih lanjut
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2"
                                     viewBox="0 0 24 24">
