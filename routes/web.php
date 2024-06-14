@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthParentsController;
 use App\Http\Controllers\ChildController;
 use App\Http\Controllers\growthChildController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\ScheduleController;
 use App\Models\InformationVaccine;
@@ -95,6 +96,10 @@ route::group(['prefix' => 'user',  'middleware' => 'auth:parent', 'as' => 'user.
     Route::get('/dashboard', [ChildController::class, 'index'])->name('dashboard');
     Route::get('/schedule', [ParentController::class, 'indexSchedule'])->name('schedule');
 
+    // halaman history imunisasi
+    Route::get('/history', [HistoryController::class, 'indexHistory'])->name('history');
+    Route::post('/insert-history', [HistoryController::class, 'insertHistory'])->name('insert.history');
+
     // halaman profile
     Route::get('/profile', [ParentController::class, 'profile'])->name('profile');
     Route::get('/profile/edit/{id}', [ParentController::class, 'editProfile'])->name('edit.profile');
@@ -110,10 +115,16 @@ route::group(['prefix' => 'user',  'middleware' => 'auth:parent', 'as' => 'user.
     // halaman pertumbuhan anak
     Route::get('/growth-chart', [growthChildController::class, 'indexGrowthChart'])->name('growth.chart');
     Route::get('/chart/{id}', [growthChildController::class, 'show'])->name('growth.chart.show');
+    Route::get('/manage-growth/{id}', [growthChildController::class, 'manageGrowth'])->name('manage.growth');
+    Route::post('/manage-growth-proses', [growthChildController::class, 'manageGrowthInsert'])->name('manage.growth.proses');
+    Route::delete('/manage-growth-delete/{id}', [growthChildController::class, 'manageGrowthDelete'])->name('manage.growth.delete');
+    Route::get('/manage-growth-edit/{id}', [growthChildController::class, 'manageGrowthEdit'])->name('manage.growth.edit');
+    Route::put('/manage-growth-update/{id}', [growthChildController::class, 'manageGrowthUpdate'])->name('manage.growth.update');
 
     // data anak
     Route::post('/add-child', [ChildController::class, 'addChild'])->name('add.child');
     Route::get('/events', [ChildController::class, 'events'])->name('events');
+    Route::get('/events2', [ChildController::class, 'events2'])->name('events2');
     Route::get('/child-profile/{id}', [ChildController::class, 'indexChildProfile'])->name('child.profile');
     Route::get('/profile-anak/delete/{id}', [ChildController::class, 'childDelete'])->name('child.delete');
     Route::get('/profile-anak/edit/{id}', [ChildController::class, 'childEdit'])->name('child.edit');

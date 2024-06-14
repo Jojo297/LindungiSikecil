@@ -11,6 +11,7 @@ class Schedule extends Model
 {
     use HasFactory;
     protected $table = 'immunization_schedule';
+    protected $primaryKey = 'id_schedule';
     protected $fillable = [
         'id_schedule',
         'year',
@@ -24,5 +25,10 @@ class Schedule extends Model
     public function vaccines(): HasMany
     {
         return $this->hasMany(Vaccines::class, 'id_schedule');
+    }
+    public function children()
+    {
+        return $this->belongsToMany(Child::class, 'child_schedule', 'id_schedule', 'id_child')
+            ->withPivot('status', 'created_at', 'updated_at');
     }
 }

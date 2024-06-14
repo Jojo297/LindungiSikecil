@@ -13,6 +13,7 @@ class Parents extends AuthenticatableUser implements Authenticatable
     use Notifiable;
     // protected $table = 'parents';
     protected $guard = 'parents';
+    protected $primaryKey = 'id_parent';
     protected $fillable = [
         'id_parent',
         'email',

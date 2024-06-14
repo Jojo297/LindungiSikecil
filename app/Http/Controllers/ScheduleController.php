@@ -40,7 +40,7 @@ class ScheduleController extends Controller
             foreach ($vaksin as $vaksin_value) {
                 Vaccines::create([
                     'type_vaccine' => $vaksin_value,
-                    'id_schedule' => $immunizationSchedule->id
+                    'id_schedule' => $immunizationSchedule->id_schedule
                 ]);
                 // $vaccinesData[] = [
                 //     'type_vaccine' => $vaksin_value,

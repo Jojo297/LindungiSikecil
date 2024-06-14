@@ -127,7 +127,7 @@
                                 </th>
 
                                 <th>
-                                    Action
+                                    Aksi
                                 </th>
                             </tr>
                         </thead>
@@ -135,7 +135,7 @@
                             @foreach ($schedules as $schedule)
                                 <tr>
                                     <th>
-                                        {{-- {{ $index + 1 }} --}}
+                                        {{ $loop->index + 1 }}
                                     </th>
                                     <td>
                                         {{ $schedule->year }} tahun {{ $schedule->month }} bulan
@@ -185,7 +185,7 @@
                                                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                     Are
                                                     you
-                                                    Apakah anda yakin ingin menghapus artikel ini?</h3>
+                                                    Apakah anda yakin ingin menghapus data ini?</h3>
                                                 <form method="POST"
                                                     action="{{ route('admin.schedule.destroy', $schedule->id_schedule) }}">
                                                     @csrf @method('DELETE')
@@ -292,9 +292,9 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="p-4 md:p-5">
-                                                <form id="schedule-form"
+                                                <form id="schedule-form1"
                                                     action="/admin/schedules/edit/{{ $schedule->id_schedule }}"
-                                                    class="p-4 md:p-5" method="POST">
+                                                    class="" method="POST">
                                                     @csrf @method('POST')
                                                     <div class="grid mb-4 grid-cols-2">
                                                         <div class="col-span-2">
@@ -323,7 +323,7 @@
                                                         {{-- input month selesai --}}
 
                                                         {{-- eror year --}}
-                                                        <div id="alert-1" class="col-span-1 mt-3"
+                                                        <div id="alert-4" class="col-span-1 mt-3"
                                                             style="display: none;">
                                                             <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                                                 role="alert">
@@ -335,13 +335,14 @@
                                                                 </svg>
                                                                 <span class="sr-only">Info</span>
                                                                 <div class="ms-3 text-sm font-medium"
-                                                                    id="year-error-message">
+                                                                    id="year1-error-message">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         {{-- eror year selesai --}}
+
                                                         {{-- eror month --}}
-                                                        <div id="alert-2" class="col-span-1 ml-2 mt-3"
+                                                        <div id="alert-5" class="col-span-1 ml-2 mt-3"
                                                             style="display: none;">
                                                             <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                                                 role="alert">
@@ -353,7 +354,7 @@
                                                                 </svg>
                                                                 <span class="sr-only">Info</span>
                                                                 <div class="ms-3 text-sm font-medium"
-                                                                    id="month-error-message">
+                                                                    id="month1-error-message">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -378,7 +379,7 @@
                                                     {{-- input vaksin selesai --}}
 
                                                     {{-- eror vaksin --}}
-                                                    <div id="alert-3" class="col-span-1 ml-2 mt-3"
+                                                    <div id="alert-6" class="col-span-1 ml-2 mt-3"
                                                         style="display: none;">
                                                         <div class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                                             role="alert">
@@ -390,24 +391,24 @@
                                                             </svg>
                                                             <span class="sr-only">Info</span>
                                                             <div class="ms-3 text-sm font-medium"
-                                                                id="vaccins-error-message">
+                                                                id="vaccins1-error-message">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     {{-- eror vaksin selesai --}}
-                                                    <input type=hidden id="id-schedule"
-                                                        value="{{ $schedule->id_schedule }}">
+
                                                     <div id="vaccin-list"
                                                         class="col-span-2 text-center font-medium text-gray-900 mb-3">
                                                         <ul id="list-vaccine" class="space-y-4 mb-4">
+                                                            <input type="number" class="hidden" id="id-schedule"
+                                                                value="{{ $schedule->id_schedule }}">
                                                             @foreach ($vaccines->where('id_schedule', $schedule->id_schedule) as $vaccine)
                                                                 <li id="vaccine-{{ $vaccine->id_vaccine }}">
                                                                     <label for="job-1"
                                                                         class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
                                                                         <div class="block">
                                                                             <div class="w-full text-lg font-semibold">
-                                                                                {{ $vaccine->type_vaccine }}
-                                                                            </div>
+                                                                                {{ $vaccine->type_vaccine }}</div>
                                                                             <input type="text" name="faksin1[]"
                                                                                 value="{{ $vaccine->type_vaccine }}"
                                                                                 class="hidden">
@@ -428,29 +429,19 @@
                                                                 </li>
                                                             @endforeach
                                                         </ul>
-                                                        {{-- <input type="text" name="faksin[]">
-                                                <div class="py-1" name="vaccin[]">
-                                                    "HIV"
-                                                    <button class="delete-vaccin ml-2 text-red-700 ">X</button>
-                                                </div>
-                                                <input type="text" name="faksin[]">
-                                                <div class="py-1" name="vaccin[]">
-                                                    "Polio 1"
-                                                    <button class="delete-vaccin ml-2 text-red-700 ">X</button>
-                                                </div> --}}
-                                                    </div>
-                                                    <hr>
+                                                        <hr>
 
-                                                    <button type="submit" id="submit-button1"
-                                                        class="text-white inline-flex mt-2 items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor"
-                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                        Ubah jadwal imunisasi
-                                                    </button>
+                                                        <button type="submit" id="submit-button1"
+                                                            class="text-white inline-flex mt-2 items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor"
+                                                                viewBox="0 0 20 20"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            Ubah jadwal imunisasi
+                                                        </button>
                                                 </form>
                                             </div>
                                         </div>
@@ -666,30 +657,6 @@
                     }
                 });
 
-                // const vaccinInputField = document.createElement('input');
-                // vaccinInputField.type = 'text';
-                // vaccinInputField.classList.add('hidden');
-                // vaccinInputField.name = 'faksin[]';
-                // vaccinInputField.value = vaccinValue;
-                // vaccinList.appendChild(vaccinInputField);
-
-                // const vaccinListItem = document.createElement('div');
-                // vaccinListItem.classList.add('py-1');
-                // vaccinListItem.textContent = vaccinValue;
-                // vaccinListItem.innerHTML +=
-                //     '<button class="delete-vaccin ml-2 text-red-700 ">X</button>';
-                // // vaccinListItem.setAttribute('name', 'vaccin[]'); // add name attribute
-                // vaccinList.appendChild(vaccinListItem);
-
-                // const deleteVaccinButton = vaccinListItem.querySelector('.delete-vaccin');
-                // deleteVaccinButton.addEventListener('click', () => {
-                //     const index = vaccins.indexOf(vaccinValue);
-                //     if (index !== -1) {
-                //         vaccins.splice(index, 1);
-                //         vaccinListItem.remove();
-                //     }
-                // });
-
             }
         });
     </script>
@@ -697,77 +664,91 @@
 
     {{-- edit vaccine --}}
     <script type="text/javascript">
-        const vaccinList1 = document.getElementById('list-vaccine');
-        const addVaccinButton1 = document.getElementById('add-vaccin');
-        let vaccins1 = [];
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalButtons = document.querySelectorAll('[data-modal-target]');
 
-        addVaccinButton1.addEventListener('click', () => {
-            const vaccinInput1 = document.getElementById('vaccins');
-            const vaccinValue1 = vaccinInput1.value.trim();
+            modalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modalId = this.dataset.modalTarget;
+                    const modal = document.getElementById(modalId);
 
-            if (vaccinValue1 !== '') {
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                let scheduleId = document.getElementById("id-schedule").value;
+                    if (modal) {
+                        const scheduleId = modal.querySelector('#id-schedule').value;
+                        const addVaccinButton = modal.querySelector('#add-vaccin');
+                        const vaccinInput = modal.querySelector('#vaccins');
+                        const vaccineList = modal.querySelector('#list-vaccine');
 
-                console.log(scheduleId, token, vaccinValue1);
-                $.ajax({
-                    url: '/admin/insert-vaccine',
-                    type: 'POST',
-                    data: {
-                        "id_schedule": scheduleId,
-                        "type_vaccine": vaccinValue1,
-                        "_method": 'POST',
-                        "_token": token,
-                    },
-                    success: function(data) {
-                        if (data.success) {
-                            const newVaccineId = data.id_vaccine;
-                            console.log(newVaccineId);
-                            vaccins1.push({
-                                id: newVaccineId,
-                                type: vaccinValue1
+                        if (addVaccinButton && vaccinInput && vaccineList) {
+                            addVaccinButton.addEventListener('click', () => {
+                                const vaccinValue = vaccinInput.value.trim();
+                                if (vaccinValue !== '') {
+                                    const token = document.querySelector(
+                                        'meta[name="csrf-token"]').getAttribute(
+                                        'content');
+                                    console.log(
+                                        `Schedule ID: ${scheduleId}, Token: ${token}, Vaccine: ${vaccinValue}`
+                                    );
+
+                                    $.ajax({
+                                        url: '/admin/insert-vaccine',
+                                        type: 'POST',
+                                        data: {
+                                            "id_schedule": scheduleId,
+                                            "type_vaccine": vaccinValue,
+                                            "_method": 'POST',
+                                            "_token": token,
+                                        },
+                                        success: function(data) {
+                                            if (data.success) {
+                                                const newVaccineId = data
+                                                    .id_vaccine;
+                                                console.log(
+                                                    `New Vaccine ID: ${newVaccineId}`
+                                                );
+
+                                                const newVaccineItem = document
+                                                    .createElement('li');
+                                                newVaccineItem.id =
+                                                    `vaccine-${newVaccineId}`;
+                                                newVaccineItem.innerHTML = `
+                                            <label for="job-1" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                                <div class="block">
+                                                    <div class="w-full text-lg font-semibold">${vaccinValue}</div>
+                                                    <input type="text" name="faksin1[]" value="${vaccinValue}" class="hidden">
+                                                </div>
+                                                <button type="button" class="delete-button" id="delete-button-${newVaccineId}" data-id="${newVaccineId}" data-token="${token}">
+                                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                        <path fill="#e83030" d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/>
+                                                    </svg>
+                                                </button>
+                                            </label>
+                                        `;
+                                                vaccineList.appendChild(
+                                                    newVaccineItem);
+                                                vaccinInput.value =
+                                                    ''; // Clear input after successful submission
+                                            } else {
+                                                console.error(
+                                                    'Data insertion failed:',
+                                                    data);
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('AJAX error:', error);
+                                        }
+                                    });
+                                } else {
+                                    console.warn('Vaccine input is empty');
+                                }
                             });
-                            vaccinInput1.value = '';
-
-                            const vaccinListItem1 = document.createElement('li');
-                            vaccinListItem1.id = 'vaccine-' + newVaccineId;
-                            vaccinListItem1.innerHTML = `
-                        <label for="job-1" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg">
-                            <div class="block">
-                                <div class="w-full text-lg font-semibold">
-                                    ${vaccinValue1}
-                                </div>
-                                <input type="text" name="faksin1[]" class="hidden" value="${vaccinValue1}">
-                            </div>
-                            <button type="button" class="delete-button" id="delete-button-${newVaccineId}" data-id="${newVaccineId}" data-token="${token}">
-                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                    <path fill="#e83030" d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-                                </svg>
-                            </button>
-                        </label>
-                    `;
-
-                            vaccinList1.appendChild(vaccinListItem1);
-
-                            // const deleteVaccinButton1 = vaccinListItem1.querySelector(
-                            //     '.delete-button');
-                            // deleteVaccinButton1.addEventListener('click', () => {
-                            //     const index = vaccins1.findIndex(v => v.id === newVaccineId);
-                            //     if (index !== -1) {
-                            //         vaccins1.splice(index, 1);
-                            //         vaccinListItem1.remove();
-                            //     }
-                            // });
                         } else {
-                            alert('Gagal menambahkan vaksin. Silakan coba lagi.');
+                            console.error('Essential elements not found in the modal');
                         }
-                    },
-                    error: function(error) {
-                        console.error('Error:', error);
+                    } else {
+                        console.error('Modal not found:', modalId);
                     }
                 });
-
-            }
+            });
         });
     </script>
     {{-- edit vaccine selesai --}}
@@ -775,7 +756,11 @@
     {{-- data table --}}
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                language: {
+                    url: "{{ asset('js/id.json') }}",
+                }
+            });
         });
     </script>
     {{-- data table selesai --}}
@@ -792,7 +777,7 @@
                     vaccins: {
                         required: {
                             depends: function(element) {
-                                return ($("#vaccin-list").children().length === 0);
+                                return ($("#list-vaccine1").children().length === 0);
                             }
                         }
                     }
@@ -811,7 +796,7 @@
                     } else if (element.attr("id") == "month") {
                         $("#alert-2").show();
                         $("#month-error-message").html(error.text());
-                    } else if (element.attr("id") == "vaccins") {
+                    } else if (element.attr("id") == "vaccins1") {
                         $("#alert-3").show();
                         $("#vaccins-error-message").html(error.text());
                     }

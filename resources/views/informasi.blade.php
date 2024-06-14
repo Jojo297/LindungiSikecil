@@ -70,7 +70,7 @@
             </div>
             {{-- search selesai --}}
             {{-- card information --}}
-            <div align="center" class="container px-4 pt-[50px] lg:flex lg:justify-center">
+            <div align="center" class="container mx-auto px-4 pt-[50px] lg:flex lg:justify-center">
                 <div class="container" id="searchResult">
                     <div class="flex flex-wrap">
                         @forelse ($information as $informations => $data)

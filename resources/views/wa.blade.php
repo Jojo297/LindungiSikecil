@@ -40,7 +40,7 @@
                                         </div>
                                         <input type="text" id="noWa" name="noWa" maxlength="15"
                                             aria-describedby="helper-text-explanation" value="{{ old('noWa') }}"
-                                            class=" border border-gray-100 text-gray-900 rounded-lg px-4 py-4 placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+                                            class=" border border-gray-100 text-gray-900 rounded-lg px-4 py-4 placeholder-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5
                                         form-control
                                         @error('noWa') is-invalid @enderror"
                                             placeholder="08xxx" />

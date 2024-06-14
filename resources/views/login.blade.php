@@ -41,7 +41,7 @@
                             <label for="username" class="text-gray-500 text-left mb-2">Email</label>
                             <input type="text" id="email" name="email" placeholder="Masukkan email anda"
                                 maxlength="25" value="{{ old('email') }}"
-                                class="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:shadow-lg" />
+                                class="appearance-none border border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:shadow-lg" />
                         </div>
                         {{-- eror nama pengguna --}}
                         @error('email')
@@ -73,7 +73,7 @@
                             <label for="password" class="text-gray-500 text-left mb-2">Kata Sandi</label>
                             <input type="password" id="password" name="password" value="{{ old('password') }}"
                                 placeholder="Masukkan kata sandi anda"
-                                class="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:shadow-lg" />
+                                class="appearance-none border border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:shadow-lg" />
                         </div>
                         {{-- eror kata sandi --}}
                         @error('password')
@@ -127,6 +127,7 @@
                                 </button>
                             </div>
                         @endif
+
                         {{-- loading --}}
                         <div align="center" id="loading-indicator" class="hidden" role="status">
                             <svg aria-hidden="true"
@@ -142,6 +143,7 @@
                             <span class="sr-only">Loading...</span>
                         </div>
                         {{-- loading selesai --}}
+
                         <div class="flex flex-col w-full my-5">
                             <button type="submit" id="button1"
                                 class="w-full py-4 bg-red-400 hover:bg-red-500 rounded-lg text-green-100">

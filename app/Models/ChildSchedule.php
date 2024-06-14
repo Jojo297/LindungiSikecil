@@ -16,4 +16,13 @@ class ChildSchedule extends Model
         'id_schedule',
         'status'
     ];
+    public function child()
+    {
+        return $this->belongsTo(Child::class, 'id_child');
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class, 'id_schedule', 'id_schedule');
+    }
 }

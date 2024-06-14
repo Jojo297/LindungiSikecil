@@ -15,12 +15,12 @@ class Authenticate extends Middleware
     {
         if (!$request->expectsJson()) {
 
-            if (auth()->guard('admin')->check()) { // Check for 'admin' guard
-                return route('admin.admin.dashboard'); // Redirect to admin dashboard
-            } elseif (auth()->guard('parent')->check()) {
-                // dd(auth()->guard('parent')->check());
-                return view('user.dashboard'); // Redirect to parents dashboard
-            }
+            // if (auth()->guard('admin')->check()) { // Check for 'admin' guard
+            //     return route('admin.admin.dashboard'); // Redirect to admin dashboard
+            // } elseif (auth()->guard('parent')->check()) {
+            //     // dd(auth()->guard('parent')->check());
+            //     return view('user.dashboard'); // Redirect to parents dashboard
+            // }
         }
 
         return null;

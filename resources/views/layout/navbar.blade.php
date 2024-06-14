@@ -1,5 +1,5 @@
  {{-- navbar --}}
- <nav class="bg-gray-50 fixed top-0 z-10 w-full border-b-2 border-gray-200 rounded-br-lg rounded-bl-lg dark:bg-gray-900">
+ <nav class="bg-white fixed top-0 z-10 w-full border-b-2 border-gray-200 rounded-br-lg rounded-bl-lg dark:bg-gray-900">
      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
          <a href="{{ route('user.dashboard') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
              <img src="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}" class="" width="45"

@@ -5,15 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Child;
 use App\Models\ChildSchedule;
 use App\Models\Schedule;
+use App\Models\Vaccines;
 use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use PhpParser\Node\Expr\Cast\String_;
 
 class ChildController extends Controller
 {
+    protected function getAge($birthdate)
+    {
+        $birthdate = new DateTime($birthdate);
+        $now = new DateTime();
+        $age = $now->diff($birthdate);
 
-
+        return [
+            'years' => $age->y,
+            'months' => $age->m
+        ];
+    }
     public function calculateAge($birthDate)
     {
         $today = new DateTime();
@@ -37,6 +50,8 @@ class ChildController extends Controller
 
     public function index()
     {
+        $schedules = Schedule::all();
+        $vaccines = Vaccines::all();
         $auth = Auth::guard('parent')->check();
         // $child = Child::first(); // Ambil data anak pertama
         if ($auth) {
@@ -51,7 +66,7 @@ class ChildController extends Controller
                 $age = $this->calculateAge($birthDate);
                 $childs_with_age[] = ['child' => $child, 'age' => $age, 'id_child' => $id_child];
             }
-            return view('dashboard', ['childs' => $childs_with_age]);
+            return view('dashboard', ['childs' => $childs_with_age], compact('vaccines', 'schedules'));
         } else {
             return route('login.user');
         }
@@ -88,15 +103,18 @@ class ChildController extends Controller
 
     public function addChild(Request $request)
     {
-        $user = Auth::guard('parent')->user();
 
-        $data = Child::create([
+        $user = Auth::guard('parent')->user();
+        $data = [
             'name' => $request->name,
             'date_of_birth' => $request->date,
             'gender' => $request->gender,
             'id_parent' => $user->id_parent
-        ]);
-        if ($data->save()) {
+        ];
+
+        $childId = Child::create($data);
+        // dd($data);
+        if ($childId) {
             // redirect
             return redirect()->route('user.dashboard')->with('success', 'Data berhasil ditambahkan');
         } else {
@@ -108,9 +126,121 @@ class ChildController extends Controller
     }
     public function events()
     {
-        $events = Child::all();
+        $events = [];
+        $children = Child::all();
+        $immunizationSchedules = Schedule::all();
+
+        foreach ($children as $child) {
+            $age = $this->getAge($child->date_of_birth);
+            $childTotalMonths = ($age['years'] * 12) + $age['months'];
+
+            foreach ($immunizationSchedules as $schedule) {
+                $scheduleTotalMonths = ($schedule->year * 12) + $schedule->month;
+
+                if ($scheduleTotalMonths >= $childTotalMonths) {
+                    $eventDate = (new DateTime($child->date_of_birth))->modify("+{$scheduleTotalMonths} months");
+                    $events[] = [
+                        'title' => 'Imunisasi ' . $child->name,
+                        'start' => $eventDate->format('Y-m-d'),
+                        'allDay' => true
+                    ];
+                }
+            }
+        }
 
         return response()->json($events);
+    }
+    public function events2()
+    {
+        $events = [];
+
+        $idParent = auth()->guard('parent')->id();
+
+        $events = [];
+        // $childSchedules = ChildSchedule::with(['child', 'schedule'])->get();
+        $childSchedules = ChildSchedule::with(['child', 'schedule'])
+            ->whereHas('child', function ($query) use ($idParent) {
+                $query->where('id_parent', $idParent)->where('status', 'belum');
+            })
+            ->get();
+        // $childSchedules = ChildSchedule::with(['child', 'schedule'])->get();
+
+        foreach ($childSchedules as $childSchedule) {
+            $child = $childSchedule->child;
+            $schedule = $childSchedule->schedule;
+
+            $vaccines = Vaccines::where('id_schedule', $schedule->id_schedule)->get();
+            $vaccineTypes = array_map(function ($vaccine) {
+                return $vaccine['type_vaccine'];
+            }, $vaccines->toArray());
+
+            if ($child && $schedule && $vaccines) {
+                // Hitung umur anak
+                $age = $this->getAge($child->date_of_birth);
+                $totalMonths = ($age['years'] * 12) + $age['months'];
+
+                // Hitung tanggal imunisasi berdasarkan schedule
+                $immunizationDate = (new DateTime($child->date_of_birth))
+                    ->modify("+{$schedule->year} years")
+                    ->modify("+{$schedule->month} months");
+                // ->setTime(00, 00);
+
+
+                // Tambahkan event ke array
+                $events[] = [
+                    'id_child'    => $child->id,
+                    'id_schedule'    => $schedule->id_schedule,
+                    'title' => 'Imunisasi ' . $child->name,
+                    'start' => $immunizationDate->format('Y-m-d'),
+                    'allDay' => true,
+                    'status' => $childSchedule->status,
+                    'vaccines' => $vaccineTypes, // Add vaccines data here
+                ];
+                // // Hitung tanggal notifikasi (5 hari sebelum tanggal imunisasi)
+                // $notificationDate = (clone $immunizationDate)->modify('-1 days');
+                // $currentDateTime = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+                // // Hitung tanggal notifikasi (3 hari sebelum tanggal imunisasi)
+                // $notificationDate = $immunizationDate;
+                // $notificationDate->setTime(15, 30, 00);
+
+                // dd($notificationDate->format('Y-m-d H:i'), $currentDateTime->format('Y-m-d H:i'));
+                // // Kirim notifikasi jika tanggal notifikasi adalah hari ini
+                // if ($immunizationDate->format('Y-m-d H:i') == $currentDateTime->format('Y-m-d H:i')) {
+                //     $this->sendWhatsAppNotification($child, $immunizationDate);
+                // } else {
+                //     dd("Notif not today");
+                // }
+            }
+        }
+
+        return response()->json($events);
+    }
+    private function sendWhatsAppNotification($child, $immunizationDate)
+    {
+        $decryptNoWa = Crypt::decryptString($child->parent->no_wa);
+        $phoneNumber = $decryptNoWa; // Asumsikan ada kolom no_wa di tabel child
+        // dd($phoneNumber);
+        $message = "Reminder: Anak Anda, {$child->name}, memiliki jadwal imunisasi pada tanggal {$immunizationDate->format('Y-m-d')}(5 hari lagi)😊.";
+
+        // $notificationDate->setTime(00, 37, 0);
+        // Mengonversi tanggal notifikasi menjadi UNIX timestamp
+        // $scheduleTimestamp = $notificationDate->getTimestamp();
+        // dd($notificationDate->format('Y-m-d H:i:s'));
+        $data = [
+            'target' => $phoneNumber,
+            'message' => $message,
+            // 'schedule' => $scheduleTimestamp,
+            'countryCode' => '62', // Optional
+        ];
+        $response = Http::withHeaders([
+            'Authorization' => env('FONNTE_API_TOKEN'), // Ambil token dari environment
+        ])->post('https://api.fonnte.com/send', $data);
+
+        if ($response->successful()) {
+            return "Notifikasi terkirim: " . $response->body();
+        } else {
+            return "Gagal mengirim notifikasi: " . $response->body();
+        }
     }
     public function indexChildProfile(String $id)
     {

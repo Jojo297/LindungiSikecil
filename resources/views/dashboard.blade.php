@@ -152,7 +152,7 @@
                                             Grafik Pertumbuhan anak</h5>
                                     </div>
                                 </div>
-                                <img src="{{ asset('image/graph.png') }}" class=" w-full" alt="" />
+                                <img src="{{ asset('image/monitoring.png') }}" class="w-full" alt="" />
                             </a>
                         </div>
                     </div>

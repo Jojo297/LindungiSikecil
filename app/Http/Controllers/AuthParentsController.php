@@ -37,10 +37,10 @@ class AuthParentsController extends Controller
         if ($parents == true) {
             // Redirect to user dashboard route    
             // dd('success');
-            return redirect()->route('user.dashboard');
+            return redirect()->route('user.dashboard')->with('success', 'Berhasil Masuk, Selamat datang👋');
         } else {
             // Handle failed login attempts (optional)
-            return  redirect()->back()->with('error', 'Email atau password salah');
+            return  redirect()->back()->with('error', 'Email atau Kata sandi salah!');
         }
     }
 
