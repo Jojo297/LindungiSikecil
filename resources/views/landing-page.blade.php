@@ -177,10 +177,8 @@
                         class="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg">
                     </div>
                     <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white dark:bg-gray-800">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/mockup-1-light.png"
-                            class="dark:hidden w-[272px] h-[572px]" alt="Light mockup">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/mockup-1-dark.png"
-                            class="hidden dark:block w-[272px] h-[572px]" alt="Dark mockup">
+                        <img src="{{ asset('image/mockup_notif.jpg') }}" class="dark:hidden w-[272px] h-[572px]"
+                            alt="Light mockup">
                     </div>
                 </div>
             </div>
@@ -338,7 +336,6 @@
                             src="{{ asset('image/WhatsApp Image 2024-04-10 at 14.36.32_8910d115.jpg') }}">
                         <div class="flex-grow">
                             <h2 class="text-gray-900 title-font font-medium">M Afiffudin Al Mahdi</h2>
-                            <p class="text-gray-500">Full Stack Developer</p>
                         </div>
                     </div>
                 </div>
@@ -346,10 +343,9 @@
                     <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                         <img alt="team"
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                            src="https://dummyimage.com/84x84">
+                            src="{{ asset('image/ali.jpg') }}">
                         <div class="flex-grow">
-                            <h2 class="text-gray-900 title-font font-medium">Henry Letham</h2>
-                            <p class="text-gray-500">CTO</p>
+                            <h2 class="text-gray-900 title-font font-medium">Muhammad Al Ghazali</h2>
                         </div>
                     </div>
                 </div>
@@ -357,10 +353,9 @@
                     <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                         <img alt="team"
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                            src="https://dummyimage.com/88x88">
+                            src="{{ asset('image/amel.jpg') }}">
                         <div class="flex-grow">
-                            <h2 class="text-gray-900 title-font font-medium">Oskar Blinde</h2>
-                            <p class="text-gray-500">Founder</p>
+                            <h2 class="text-gray-900 title-font font-medium">Amelia Hanif</h2>
                         </div>
                     </div>
                 </div>
@@ -370,8 +365,7 @@
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
                             src="https://dummyimage.com/90x90">
                         <div class="flex-grow">
-                            <h2 class="text-gray-900 title-font font-medium">John Doe</h2>
-                            <p class="text-gray-500">DevOps</p>
+                            <h2 class="text-gray-900 title-font font-medium">Nurul Aini</h2>
                         </div>
                     </div>
                 </div>
@@ -379,10 +373,9 @@
                     <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                         <img alt="team"
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                            src="https://dummyimage.com/94x94">
+                            src="{{ asset('image/nopri.jpg') }}">
                         <div class="flex-grow">
-                            <h2 class="text-gray-900 title-font font-medium">Martin Eden</h2>
-                            <p class="text-gray-500">Software Engineer</p>
+                            <h2 class="text-gray-900 title-font font-medium">Nofri Fahsyuliardi</h2>
                         </div>
                     </div>
                 </div>
@@ -392,8 +385,7 @@
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
                             src="https://dummyimage.com/98x98">
                         <div class="flex-grow">
-                            <h2 class="text-gray-900 title-font font-medium">Boris Kitua</h2>
-                            <p class="text-gray-500">UX Researcher</p>
+                            <h2 class="text-gray-900 title-font font-medium">Mira Handayani</h2>
                         </div>
                     </div>
                 </div>
