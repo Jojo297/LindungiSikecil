@@ -45,7 +45,7 @@ class SendWhatsAppNotification extends Command
             $currentDateTime = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 
             $notificationDate = $immunizationDate;
-            $notificationDate->setTime(18, 58);
+            $notificationDate->setTime(23, 10);
 
             // Tentukan tanggal notifikasi 3 hari sebelumnya
             $threeDaysBefore = (clone $notificationDate)->modify('-3 days');

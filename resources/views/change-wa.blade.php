@@ -24,7 +24,7 @@
                             Masukkan Nomor WhatsApp
                         </h2>
 
-                        <form method="POST" action="{{ route('send.otp') }}">
+                        <form method="POST" action="{{ route('change-wa-send') }}">
                             @csrf
                             <div class="items-center justify-center mt-4 mb-3 space-x-2 rtl:space-x-reverse">
                                 {{-- No wa --}}

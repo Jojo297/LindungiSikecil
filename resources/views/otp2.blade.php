@@ -31,7 +31,7 @@
                             <p class="text-gray-600 text-center" id="countdown"></p>
 
                         </div>
-                        <form action="{{ route('verifyOtp') }}" method="POST">
+                        <form action="{{ route('virifyOtpAgain') }}" method="POST">
                             @csrf
                             <div
                                 class="flex flex-row  items-center justify-center mt-5 mb-4 space-x-2 rtl:space-x-reverse">

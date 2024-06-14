@@ -127,16 +127,82 @@ class ParentController extends Controller
             return redirect()->route('user.otp')->with('error', 'OTP yang anda masukkan salah!');
         }
     }
-
-    public function sendAgain()
+    public function sendAgainIndex()
     {
-        // ambil data no whatsaap dari sesi
-        $nomor = session('no_wa');
-
-        if ($nomor) {
-        }
+        return view('change-wa');
     }
 
+    public function changeNoWa(Request $request)
+    {
+        $request->validate([
+            'noWa'  => 'required|unique:parents,no_wa|min:10',
+            'check' => 'required'
+        ], [
+            'noWa.unique' => 'Nomor yang anda masukkan sudah terdaftar',
+            'noWa.required' => 'Masukkan nomor WhatsApp anda!',
+            'noWa.min' => 'Masukkan minimal 10 angka!',
+            'check.required' => 'Harap lengkapi data diatas'
+        ]);
+
+        // Enkripsi nomor WhatsApp baru
+        $encryptedNoWa = Crypt::encryptString($request->noWa);
+
+        // Simpan nomor WhatsApp baru ke dalam database
+        Parents::where('no_wa', session('no_wa'))->update(['no_wa' => $encryptedNoWa]);
+
+        // Simpan nomor WhatsApp baru ke dalam session
+        session(['no_wa_change' => $encryptedNoWa]);
+
+        // Kirim OTP baru ke nomor WhatsApp baru
+        $otp = rand(100000, 999999);
+        Parents::where('no_wa', $encryptedNoWa)->update(['otp' => $otp]);
+
+        // Kirim OTP via API
+        $data = [
+            'target' => $request->noWa,
+            'message' => "OTP anda : " . $otp
+        ];
+        $response = Http::withHeaders([
+            'Authorization' => env('FONNTE_API_TOKEN')
+        ])->post('https://api.fonnte.com/send', $data);
+
+        return redirect()->route('user.otp.change');
+    }
+
+    public function verifyOtpAgain(Request $request)
+    {
+        // Ambil data username, email, dan password dari sesi
+        $registerData = session('register_data');
+        $passwordHash = Hash::make($registerData['password']);
+
+        // Ambil nomor WhatsApp baru dari session
+        $nomor = session('no_wa_change');
+
+        // Validasi OTP
+        $otp = implode('', $request->otp);
+
+        // Periksa kecocokan OTP
+        $validOtp = Parents::where('no_wa', $nomor)->where('otp', $otp)->first();
+
+        if ($validOtp) {
+            // Hapus data username, email, dan password dari sesi
+            session()->forget('register_data');
+
+            // Simpan data username, email, dan password ke dalam database
+            $inputData = [
+                'username' => $registerData['username'],
+                'email' => $registerData['email'],
+                'password' => $passwordHash,
+            ];
+            Parents::where('no_wa', $nomor)->update($inputData);
+
+            // Redirect ke halaman login setelah berhasil
+            return redirect()->route('login')->with('success', 'Akun anda Berhasil dibuat👌');
+        } else {
+            // Redirect ke halaman verifikasi OTP dengan pesan error
+            return redirect()->route('user.otp')->with('error', 'OTP yang anda masukkan salah!');
+        }
+    }
     public function indexSchedule()
     {
         return view('user-schedule');

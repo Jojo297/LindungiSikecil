@@ -43,11 +43,22 @@ Route::get('user/otp', function () {
     return view('otp');
 })->middleware('verify.register.data')->name('user.otp');
 
-Route::post('/user/input-otp', [ParentController::class, 'virifyOtp'])->middleware('verify.register.data')->name('virifyOtp');
+Route::get('user/change-wa/otp', function () {
+    return view('otp2');
+})->middleware('verify.register.data')->name('user.otp.change');
+// ->middleware('verify.register.data')->name('user.otp');
+
+Route::post('/user/input-otp', [ParentController::class, 'virifyOtp'])->middleware('verify.register.data')->name('verifyOtp');
+Route::post('/user/input-otp-change', [ParentController::class, 'verifyOtpAgain'])->middleware('verify.register.data')->name('virifyOtpAgain');
 
 Route::get('user/wa', function () {
     return view('wa');
-})->name('user.wa')->middleware('verify.register.data');
+})->middleware('verify.register.data')->name('user.wa');
+// ->middleware('verify.register.data');
+
+Route::get('/change-wa', [ParentController::class, 'sendAgainIndex'])->name('change-wa');
+
+Route::post('/change-wa-proses', [ParentController::class, 'changeNoWa'])->name('change-wa-send');
 
 Route::post('user/send-whatsaap', [ParentController::class, 'sendOtp'])->name('send.otp');
 // login user selesai
