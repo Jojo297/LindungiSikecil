@@ -8,6 +8,21 @@
     <title>Informasi Vaksin || {{ $detail->heading }}</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        /* CSS untuk menargetkan link dalam artikel */
+        .article-content a {
+            color: blue;
+
+        }
+
+        /* Pastikan CSS khusus tidak menimpa gaya default untuk list */
+        .article-content ol {
+            list-style-type: decimal;
+            /* Pastikan list-style-type diatur ke decimal */
+            margin-left: 20px;
+            /* Tambahkan margin jika diperlukan untuk indentasi */
+        }
+    </style>
 </head>
 
 <body class="bg-red-300">
@@ -66,8 +81,8 @@
             </div>
             <div class="container px-4 pt-5">
                 <div class="bg-red-50 p-4 rounded-lg">
-                    <article class="text-wrap">
-                        <p class="text-justify whitespace-break-spaces text-gray-700">{{ $detail->body }}</p>
+                    <article class="text-wrap article-content">
+                        <p class="text-justify whitespace-break-spaces text-gray-700">{!! $detail->body !!}</p>
                     </article>
                 </div>
             </div>

@@ -127,7 +127,7 @@
                                             {{ $data->heading }}</h5>
                                         <p id="clamped-text"
                                             class="font-normal text-left text-gray-700 relative z-10 line-clamp-3 ck-content">
-                                            {{ Str::limit(strip_tags($data->body), 200) }}
+                                            {!! Str::limit(strip_tags($data->body), 200) !!}
                                         </p>
                                         <div class="flex justify-start relative z-20 mt-3">
                                             <a href="/admin/detail-informasi/{{ $data->id_information }}"

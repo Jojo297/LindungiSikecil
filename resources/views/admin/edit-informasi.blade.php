@@ -140,14 +140,15 @@
     @vite('resources/js/app.js')
     <script>
         ClassicEditor
-            .create(document.querySelector('#editor'))
-            .replace('#editor', {
-                enterMode: CKEDITOR.ENTER_BR,
-                shiftEnterMode: CKEDITOR.ENTER_P,
-                extraPlugins: 'brarea',
-                allowedContent: true,
-                forceEnterMode: false,
-                forcePasteAsPlainText: true
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'undo', 'redo'
+                ]
+            })
+            .catch(error => {
+                console.error(error);
             });
     </script>
 </body>
