@@ -47,7 +47,8 @@ class AdminController extends Controller
         ]);
 
         $admin = Auth::guard('admin')->user();
-        $body = str_replace('&nbsp;', "\r\n\r\n", strip_tags($request->body));
+        // $body = str_replace('&nbsp;', "\r\n\r\n", strip_tags($request->body));
+        $body = $request->body;
 
         $data = InformationVaccine::create([
             'heading' => $request->heading,
@@ -100,7 +101,8 @@ class AdminController extends Controller
         ]);
 
         $admin = Auth::guard('admin')->user();
-        $body = str_replace('&nbsp;', "\r\n\r\n", strip_tags($request->body));
+        // $body = str_replace('&nbsp;', "\r\n\r\n", strip_tags($request->body));
+        $body = $request->body;
 
         $data = InformationVaccine::where('id_information', $id)->update([
             'heading' => $request->heading,

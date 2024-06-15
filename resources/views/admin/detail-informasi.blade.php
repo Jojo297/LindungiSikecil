@@ -8,6 +8,22 @@
     <title>Informasi Vaksin || {{ $detail->heading }}</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        /* CSS untuk menargetkan link dalam artikel */
+        .article-content a {
+            color: blue;
+
+        }
+
+        /* Pastikan CSS khusus tidak menimpa gaya default untuk list */
+        .article-content ol {
+            list-style-type: decimal;
+            /* Pastikan list-style-type diatur ke decimal */
+            margin-left: 20px;
+            /* Tambahkan margin jika diperlukan untuk indentasi */
+        }
+    </style>
 </head>
 
 <body class="bg-red-300">
@@ -30,19 +46,26 @@
                 </svg>
             </button>
             {{-- button sidebar selesai --}}
+
+            {{-- judul --}}
             <div class="container mx-auto px-4 pt-8">
                 <h1
                     class="text-2xl font-sans font-bold text-gray-600 mb-6 underline underline-offset-3 decoration-8 decoration-red-400 dark:decoration-blue-600 lg:text-3xl">
                     {{ $detail->heading }}
                 </h1>
             </div>
+            {{-- judul selesai --}}
+
             <div class="container px-4 pt-5">
 
+                {{-- body --}}
                 <div class="bg-red-50 p-4 rounded-lg">
-                    <article class="text-wrap">
-                        <p class="text-justify whitespace-break-spaces text-gray-700">{{ $detail->body }}</p>
+                    <article class="text-wrap article-content">
+                        <p class="text-justify whitespace-break-spaces text-gray-700">{!! $detail->body !!}</p>
                     </article>
                 </div>
+                {{-- body selesai --}}
+
                 <div class="mt-3">
                     <a href="/admin/edit-informasi/{{ $detail->id_information }}" type="submit" id="button1"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Ubah
@@ -76,8 +99,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are
-                            you
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                             Apakah anda yakin ingin menghapus artikel ini?</h3>
                         <form method="POST" action="/admin/hapus-informasi/{{ $detail->id_information }}">
                             @csrf @method('DELETE')

@@ -9,6 +9,16 @@
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <style>
+        /* Pastikan CSS khusus tidak menimpa gaya default untuk list */
+        .ck-content ol {
+            list-style-type: decimal;
+            /* Pastikan list-style-type diatur ke decimal */
+            margin-left: 20px;
+            /* Tambahkan margin jika diperlukan untuk indentasi */
+        }
+    </style>
 </head>
 
 <body class="bg-red-300">
@@ -74,7 +84,7 @@
                         </div>
                     @enderror
                     <div class="mb-5">
-                        <textarea name="body" id="editor"></textarea>
+                        <textarea class="ck-content" name="body" id="editor"></textarea>
                     </div>
                     {{-- eror body --}}
                     @error('body')
@@ -128,13 +138,15 @@
     </div>
 
     @vite('resources/js/app.js')
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'), {
-                extraAllowedContent: 'p(*);'
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'undo', 'redo'
+                ]
             })
-
             .catch(error => {
                 console.error(error);
             });

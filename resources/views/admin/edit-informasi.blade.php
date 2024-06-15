@@ -10,6 +10,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <style>
+        /* Pastikan CSS khusus tidak menimpa gaya default untuk list */
+        .ck-content ol {
+            list-style-type: decimal;
+            /* Pastikan list-style-type diatur ke decimal */
+            margin-left: 20px;
+            /* Tambahkan margin jika diperlukan untuk indentasi */
+        }
+    </style>
 </head>
 
 <body class="bg-red-300">
@@ -76,7 +85,7 @@
                         </div>
                     @enderror
                     <div class="mb-5">
-                        <textarea name="body" class="text-justify" style="white-space:pre" id="editor">{{ nl2br(old('body', $information->body)) }}</textarea>
+                        <textarea name="body" class="ck-content text-justify" style="white-space:pre" id="editor">{!! nl2br(old('body', $information->body)) !!}</textarea>
                     </div>
                     {{-- eror body --}}
                     @error('body')

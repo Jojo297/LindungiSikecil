@@ -300,9 +300,9 @@ class ParentController extends Controller
             'password' => Hash::make($request->password2),
         ]);
         if ($inputData) {
-            return redirect()->route('user.profile')->with('success', 'Password anda Berhasil diubah👌');
+            return redirect()->route('user.profile')->with('success', 'Kata sandi anda Berhasil diubah👌');
         } else {
-            return redirect()->back()->with('error', 'Password anda gagal diubah');
+            return redirect()->back()->with('error', 'Kata sandi anda gagal diubah');
         }
     }
 }

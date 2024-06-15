@@ -8,6 +8,29 @@
     <title>Informasi Vaksin</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .tree-line {
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            /* Number of lines to show */
+            line-height: 1.5;
+            /* Adjust based on your font size */
+            max-height: calc(3 * 1.5em);
+            /* 3 lines times line-height */
+        }
+
+        .dot {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+
+        /* Pastikan CSS khusus tidak menimpa gaya default untuk list */
+    </style>
 </head>
 
 <body class="bg-red-300">
@@ -98,15 +121,31 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <a href="/admin/detail-informasi/{{ $data->id_information }}">
+                                    <div class="">
                                         <h5
-                                            class="mb-2 text-2xl text-left font-bold tracking-tight text-gray-900 truncate dark:text-white">
+                                            class="mb-2 text-2xl text-left font-bold tracking-tight text-gray-900 dot dark:text-white">
                                             {{ $data->heading }}</h5>
-                                        <p class="font-normal text-left text-gray-700 line-clamp-3">{{ $data->body }}
+                                        <p id="clamped-text"
+                                            class="font-normal text-left text-gray-700 relative z-10 line-clamp-3 ck-content">
+                                            {{ Str::limit(strip_tags($data->body), 200) }}
                                         </p>
-                                    </a>
+                                        <div class="flex justify-start relative z-20 mt-3">
+                                            <a href="/admin/detail-informasi/{{ $data->id_information }}"
+                                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                Baca Selengkapnya
+                                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 14 10">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                             {{-- dropdown menu edit and delete --}}
                             <div id="dropdown-{{ $data->id_information }}"
                                 class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 ">
@@ -123,6 +162,7 @@
                                 </ul>
                             </div>
                             {{-- dropdown menu edit and delete selesai --}}
+
                             {{-- modal validasi hapus --}}
                             <div id="popup-modal-{{ $data->id_information }}" tabindex="-1"
                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full animated fadeIn faster">
@@ -131,8 +171,9 @@
                                         <button type="button"
                                             class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                             data-modal-hide="popup-modal-{{ $data->id_information }}">
-                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 14 14">
+                                            <svg class="w-3 h-3" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 14 14">
                                                 <path stroke="currentColor" stroke-linecap="round"
                                                     stroke-linejoin="round" stroke-width="2"
                                                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -147,8 +188,7 @@
                                                     stroke-linejoin="round" stroke-width="2"
                                                     d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
-                                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are
-                                                you
+                                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Apakah anda yakin ingin menghapus artikel ini?</h3>
                                             <form method="POST"
                                                 action="/admin/hapus-informasi/{{ $data->id_information }}">
@@ -167,6 +207,7 @@
                                 </div>
                             </div>
                             {{-- modal validasi hapus --}}
+
                         @empty
                         @endforelse
                     </div>
@@ -210,6 +251,19 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function clampText(element, lines) {
+                const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+                const maxHeight = lines * lineHeight;
+                element.style.maxHeight = `${maxHeight}px`;
+            }
+
+            const element = document.getElementById('clamped-text');
+            clampText(element, 3);
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

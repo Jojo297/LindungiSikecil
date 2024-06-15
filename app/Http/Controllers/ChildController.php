@@ -105,23 +105,29 @@ class ChildController extends Controller
     {
 
         $user = Auth::guard('parent')->user();
-        $data = [
-            'name' => $request->name,
-            'date_of_birth' => $request->date,
-            'gender' => $request->gender,
-            'id_parent' => $user->id_parent
-        ];
-
-        $childId = Child::create($data);
-        // dd($data);
-        if ($childId) {
-            // redirect
-            return redirect()->route('user.dashboard')->with('success', 'Data berhasil ditambahkan');
+        $child = Child::where('id_parent', $user->id_parent)->where('name', $request->name)->first();
+        // dd($child);
+        if ($child) {
+            return redirect()->back()->with('error', 'Data anak dengan nama ' . $child->name . ' sudah ada!');
         } else {
-            toastr()->error('Data gagal ditambahkan', 'Gagal');
-            return redirect()->back()->with([
-                'error' => 'Data gagal disimpan!'
-            ]);
+            $data = [
+                'name' => $request->name,
+                'date_of_birth' => $request->date,
+                'gender' => $request->gender,
+                'id_parent' => $user->id_parent
+            ];
+
+            $childId = Child::create($data);
+            // dd($data);
+            if ($childId) {
+                // redirect
+                return redirect()->route('user.dashboard')->with('success', 'Data berhasil ditambahkan');
+            } else {
+                toastr()->error('Data gagal ditambahkan', 'Gagal');
+                return redirect()->back()->with([
+                    'error' => 'Data gagal disimpan!'
+                ]);
+            }
         }
     }
     public function events()
@@ -215,33 +221,33 @@ class ChildController extends Controller
 
         return response()->json($events);
     }
-    private function sendWhatsAppNotification($child, $immunizationDate)
-    {
-        $decryptNoWa = Crypt::decryptString($child->parent->no_wa);
-        $phoneNumber = $decryptNoWa; // Asumsikan ada kolom no_wa di tabel child
-        // dd($phoneNumber);
-        $message = "Reminder: Anak Anda, {$child->name}, memiliki jadwal imunisasi pada tanggal {$immunizationDate->format('Y-m-d')}(5 hari lagi)😊.";
+    // private function sendWhatsAppNotification($child, $immunizationDate)
+    // {
+    //     $decryptNoWa = Crypt::decryptString($child->parent->no_wa);
+    //     $phoneNumber = $decryptNoWa; // Asumsikan ada kolom no_wa di tabel child
+    //     // dd($phoneNumber);
+    //     $message = "Reminder: Anak Anda, {$child->name}, memiliki jadwal imunisasi pada tanggal {$immunizationDate->format('Y-m-d')}(5 hari lagi)😊.";
 
-        // $notificationDate->setTime(00, 37, 0);
-        // Mengonversi tanggal notifikasi menjadi UNIX timestamp
-        // $scheduleTimestamp = $notificationDate->getTimestamp();
-        // dd($notificationDate->format('Y-m-d H:i:s'));
-        $data = [
-            'target' => $phoneNumber,
-            'message' => $message,
-            // 'schedule' => $scheduleTimestamp,
-            'countryCode' => '62', // Optional
-        ];
-        $response = Http::withHeaders([
-            'Authorization' => env('FONNTE_API_TOKEN'), // Ambil token dari environment
-        ])->post('https://api.fonnte.com/send', $data);
+    //     // $notificationDate->setTime(00, 37, 0);
+    //     // Mengonversi tanggal notifikasi menjadi UNIX timestamp
+    //     // $scheduleTimestamp = $notificationDate->getTimestamp();
+    //     // dd($notificationDate->format('Y-m-d H:i:s'));
+    //     $data = [
+    //         'target' => $phoneNumber,
+    //         'message' => $message,
+    //         // 'schedule' => $scheduleTimestamp,
+    //         'countryCode' => '62', // Optional
+    //     ];
+    //     $response = Http::withHeaders([
+    //         'Authorization' => env('FONNTE_API_TOKEN'), // Ambil token dari environment
+    //     ])->post('https://api.fonnte.com/send', $data);
 
-        if ($response->successful()) {
-            return "Notifikasi terkirim: " . $response->body();
-        } else {
-            return "Gagal mengirim notifikasi: " . $response->body();
-        }
-    }
+    //     if ($response->successful()) {
+    //         return "Notifikasi terkirim: " . $response->body();
+    //     } else {
+    //         return "Gagal mengirim notifikasi: " . $response->body();
+    //     }
+    // }
     public function indexChildProfile(String $id)
     {
         $child = Child::find($id);
@@ -265,15 +271,33 @@ class ChildController extends Controller
     }
     public function childUpdate(Request $request, String $id)
     {
+        // Validasi input
         $request->validate([
             'name' => 'required',
-            'date' => 'required|date',
-            'gender' => 'in:Laki-laki,Perempuan',
+            'date' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    if (strtotime($value) > time()) {
+                        $fail('Tanggal lahir tidak boleh lebih besar dari hari ini.');
+                    }
+                },
+            ],
+            'gender' => 'required|in:Laki-laki,Perempuan',
         ], [
             'name.required' => 'Masukkan nama anak!',
             'date.required' => 'Masukkan tanggal lahir anak!',
             'gender.required' => 'Masukkan gender anak!',
         ]);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'date' => 'required|date',
+        //     'gender' => 'in:Laki-laki,Perempuan',
+        // ], [
+        //     'name.required' => 'Masukkan nama anak!',
+        //     'date.required' => 'Masukkan tanggal lahir anak!',
+        //     'gender.required' => 'Masukkan gender anak!',
+        // ]);
 
         $inputData = Child::where('id', $id)->update([
             'name' => $request->name,

@@ -314,12 +314,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
     <script>
         $(document).ready(function() {
+            $.validator.addMethod("dateInPast", function(value, element) {
+                var today = new Date();
+                var inputDate = new Date(value);
+                return this.optional(element) || inputDate <= today;
+            }, "Masukkan tanggal lahir yang tidak lebih dari hari ini!");
+
             $("#child-form").validate({
                 rules: {
                     name: "required",
                     date: {
                         required: true,
-                        date: true
+                        date: true,
+                        dateInPast: true
                     },
                     gender: "required"
                 },
@@ -327,7 +334,8 @@
                     name: "Masukkan nama anak anda!",
                     date: {
                         required: "Masukkan tanggal lahir anak anda!",
-                        date: "Masukkan tanggal lahir anak dengan benar!"
+                        date: "Masukkan tanggal lahir anak dengan benar!",
+                        dateInPast: "Tanggal lahir tidak boleh lebih besar dari hari ini!"
                     },
                     gender: "Pilih jenis kelamin anak anda!"
                 },

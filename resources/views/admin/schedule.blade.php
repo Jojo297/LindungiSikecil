@@ -183,8 +183,6 @@
                                                         d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 </svg>
                                                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                    Are
-                                                    you
                                                     Apakah anda yakin ingin menghapus data ini?</h3>
                                                 <form method="POST"
                                                     action="{{ route('admin.schedule.destroy', $schedule->id_schedule) }}">
@@ -770,9 +768,15 @@
         $(document).ready(function() {
             $("#schedule-form").validate({
                 rules: {
-                    year: "required",
+                    year: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
                     month: {
-                        required: true
+                        required: true,
+                        number: true,
+                        min: 0
                     },
                     vaccins: {
                         required: {
@@ -783,9 +787,15 @@
                     }
                 },
                 messages: {
-                    year: "Masukkan tahun!",
+                    year: {
+                        required: "Masukkan tahun!",
+                        number: "Masukkan angka!",
+                        min: "Tidak boleh kurang dari 0!"
+                    },
                     month: {
-                        required: "Masukkan bulan!"
+                        required: "Masukkan bulan!",
+                        number: "Masukkan angka!",
+                        min: "Tidak boleh kurang dari 0!"
                     },
                     vaccins: "Masukkan jenis vaksin!"
                 },
