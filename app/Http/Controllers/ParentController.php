@@ -288,7 +288,7 @@ class ParentController extends Controller
                     $user = Auth::user();
                     $hashedPassword = $user->password;
                     if (!Hash::check($value, $hashedPassword)) {
-                        $fail('Kata sandi yang lama salah!, silahkan coba lagi!');
+                        $fail('Kata sandi yang lama salah!, masukkan kata sandi dengan benar!');
                     }
                 },
             ],
@@ -296,6 +296,7 @@ class ParentController extends Controller
             'password3' => 'required|same:password2',
         ], [
             'password1.required' => 'Masukkan kata sandi yang lama!',
+            'password1.min' => 'Kata sandi minimal 8 karakter',
             'password2.required' => 'Masukkan kata sandi yang baru!',
             'password2.min' => 'Kata sandi minimal 8 karakter',
             'password3.same' => 'Kata sandi yang anda masukkan berbeda',
