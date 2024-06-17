@@ -69,6 +69,15 @@ class ParentController extends Controller
             'noWa.min' => 'Masukkan minimal 10 angka!',
             'check.required' => 'Harap lengkapi data diatas'
         ]);
+
+        // Ambil semua entri no_wa dari database
+        $parents = Parents::all('no_wa');
+        foreach ($parents as $parent) {
+            $decryptedNoWa = Crypt::decryptString($parent->no_wa);
+            if ($decryptedNoWa == $request->noWa) {
+                return redirect()->back()->with('error', 'Nomor yang Anda masukkan sudah terdaftar');
+            }
+        }
         // enkripsi
         $encryptedNoWa = Crypt::encryptString($request->noWa);
 

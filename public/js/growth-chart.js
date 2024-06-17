@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         },
                         options: {
                             responsive: true,
+                            maintainAspectRatio: false,
                             plugins: {
                                 title: {
                                     display: true,
@@ -156,6 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             },
                         },
                     });
+                    
                     // Get the last weight and age
                     const lastWeight = weights[weights.length - 1];
                     const lastAge = labels[labels.length - 1];
@@ -175,6 +177,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         alertDiv.classList.add('flex');
                         alertDiv.querySelector('#erorWeight').innerHTML = `Berat badan anak anda kurang dari minimal yang ditentukan pada umur ${lastAge}, silahkan konfirmasi lebih lanjut dengan ahli gizi!`;
                     }
+
+                    // Add event listener to handle window resize
+                    window.addEventListener('resize', function() {
+                        chart.resize();
+                    });
                 });
         });
     });
@@ -250,16 +257,16 @@ document.addEventListener("DOMContentLoaded", function() {
                                     tension: 0.4,
                                 },
                                 {
-                                    label: 'Batas Min Panjang Badan',
-                                    data: minBodyLengths,
+                                    label: 'Maksimal Panjang/Tinggi Badan',
+                                    data: maxBodyLengths,
                                     borderColor: '#ff0000',
                                     borderDash: [5, 5],
                                     fill: false,
                                     tension: 0.4,
                                 },
                                 {
-                                    label: 'Batas Max Panjang Badan',
-                                    data: maxBodyLengths,
+                                    label: 'Minimal Panjang/Tinggi Badan',
+                                    data: minBodyLengths,
                                     borderColor: '#0000ff',
                                     borderDash: [5, 5],
                                     fill: false,
@@ -269,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         },
                         options: {
                             responsive: true,
+                            maintainAspectRatio: false,
                             plugins: {
                                 title: {
                                     display: true,
@@ -298,6 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             },
                         },
                     });
+         
                       // Get the last weight and age
                       const lastLength = bodyLengths[bodyLengths.length - 1];
                       const lastAge = labels[labels.length - 1];
@@ -317,6 +326,12 @@ document.addEventListener("DOMContentLoaded", function() {
                           alertDiv.classList.add('flex');
                           alertDiv.querySelector('#erorLength').innerHTML = `Panjang/Tinggi badan anak anda kurang dari minimal yang ditentukan pada umur ${lastAge}, silahkan konfirmasi lebih lanjut dengan ahli gizi!`;
                       }
+
+                         // Add event listener to handle window resize
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+
                   });
                 });
         });
@@ -442,6 +457,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         },
                         options: {
                             responsive: true,
+                            maintainAspectRatio: false,
                             plugins: {
                                 title: {
                                     display: true,
@@ -471,6 +487,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             },
                         },
                     });
+
                      // Get the last weight and age
                      const lastHead = headCircumference[headCircumference.length - 1];
                      const lastAge = labels[labels.length - 1];
@@ -490,6 +507,13 @@ document.addEventListener("DOMContentLoaded", function() {
                          alertDiv.classList.add('flex');
                          alertDiv.querySelector('#erorHead').innerHTML = `Lingkar kepala anak anda kurang dari minimal yang ditentukan pada umur ${lastAge}, silahkan konfirmasi lebih lanjut dengan ahli gizi!`;
                      }
+
+                     
+                // Add event listener to handle window resize
+                window.addEventListener('resize', function() {
+                    myChart.resize();
+                    });
+    
                 });
         })
     });

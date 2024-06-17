@@ -8,6 +8,13 @@
     <title>LindungiSiKecil || Grafik Pertumbuhan Anak</title>
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .chart-canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
 
 </head>
 
@@ -95,7 +102,7 @@
                     @forelse ($childs as $child_with_age)
                         <div class="hidden" id="child-data-{{ $child_with_age['id_child'] }}">
 
-                            {{-- card tambah anak --}}
+                            {{-- card kelola pertumbuhan anak --}}
                             <div class="px-2 mb-5 lg:flex-none">
                                 <div
                                     class="w-40 max-w-sm px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 overflow-hidden">
@@ -112,7 +119,8 @@
                                     </a>
                                 </div>
                             </div>
-                            {{-- card tambah anak selesai --}}
+                            {{-- card kelola pertumbuhan anak selesai --}}
+
 
                             {{-- eror berat badan --}}
                             <div class="container ">
@@ -134,7 +142,7 @@
 
                             {{-- berat badan --}}
                             <div class="w-full p-10 mb-5 bg-white rounded-lg">
-                                <canvas id="myWeight-{{ $child_with_age['id_child'] }}"></canvas>
+                                <canvas class="chart-canvas" id="myWeight-{{ $child_with_age['id_child'] }}"></canvas>
                             </div>
                             {{-- berat badan selesai --}}
 
@@ -158,7 +166,7 @@
 
                             {{-- panjang badan --}}
                             <div class="p-10 mb-5 bg-white rounded-lg">
-                                <canvas id="myHeight-{{ $child_with_age['id_child'] }}"></canvas>
+                                <canvas class="chart-canvas" id="myHeight-{{ $child_with_age['id_child'] }}"></canvas>
                             </div>
                             {{-- panjang badan selesai --}}
 
@@ -182,7 +190,7 @@
 
                             {{-- lingkar kepala --}}
                             <div class="p-10 bg-white rounded-lg">
-                                <canvas id="myHead-{{ $child_with_age['id_child'] }}"></canvas>
+                                <canvas class="chart-canvas" id="myHead-{{ $child_with_age['id_child'] }}"></canvas>
                             </div>
                             {{-- lingkar kepala selesai --}}
 
