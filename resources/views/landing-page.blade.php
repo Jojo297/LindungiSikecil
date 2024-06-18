@@ -59,21 +59,21 @@
                 <ul
                     class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 transition duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700">
                     <li>
-                        <a href="#"
+                        <a href="#home"
                             class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:bg-blue-600"
-                            aria-current="page">Home</a>
+                            aria-current="page">Beranda</a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Services</a>
+                        <a href="#about"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Tentang</a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Pricing</a>
+                        <a href="#feature"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Fitur</a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Contact</a>
+                        <a href="#team"
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Tim</a>
                     </li>
                 </ul>
             </div>
@@ -367,7 +367,7 @@
                     <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                         <img alt="team"
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                            src="https://dummyimage.com/90x90">
+                            src="{{ asset('image/nurul.jpg') }}">
                         <div class="flex-grow">
                             <h2 class="text-gray-900 title-font font-medium">Nurul Aini</h2>
                         </div>
@@ -387,7 +387,7 @@
                     <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                         <img alt="team"
                             class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                            src="https://dummyimage.com/98x98">
+                            src="{{ asset('image/mira.webp') }}">
                         <div class="flex-grow">
                             <h2 class="text-gray-900 title-font font-medium">Mira Handayani</h2>
                         </div>
@@ -416,70 +416,70 @@
             </div>
             <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
                 <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3"></h2>
                     <nav class="list-none mb-10">
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">First Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                     </nav>
                 </div>
                 <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3"></h2>
                     <nav class="list-none mb-10">
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">First Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                     </nav>
                 </div>
                 <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3"></h2>
                     <nav class="list-none mb-10">
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">First Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                            <a class="text-gray-600 hover:text-gray-800"></a>
                         </li>
                     </nav>
                 </div>
                 <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">KATEGORI</h2>
                     <nav class="list-none mb-10">
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">First Link</a>
+                            <a href="#about" class="text-gray-600 hover:text-red-500 cursor-pointer">Beranda</a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+                            <a href="#about" class="text-gray-600 hover:text-red-500 cursor-pointer">Tentang</a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+                            <a href="#feature" class="text-gray-600 hover:text-red-500 cursor-pointer">Fitur</a>
                         </li>
                         <li>
-                            <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                            <a href="#team" class="text-gray-600 hover:text-red-500 cursor-pointer">Tim</a>
                         </li>
                     </nav>
                 </div>
@@ -487,41 +487,13 @@
         </div>
         <div class="bg-gray-100">
             <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-                <p class="text-gray-500 text-sm text-center sm:text-left">© 2020 Tailblocks —
-                    <a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-gray-600 ml-1"
-                        target="_blank">@knyttneve</a>
+                <p class="text-gray-500 text-sm text-center sm:text-left">© 2024 LindungiSiKecil —
+                    <a href="https://instagram.com/mastahh__" rel="noopener noreferrer" class="text-gray-600 ml-1"
+                        target="_blank">@mastahh__</a>
                 </p>
                 <span class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
-                    <a class="text-gray-500">
-                        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            class="w-5 h-5" viewBox="0 0 24 24">
-                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                        </svg>
-                    </a>
-                    <a class="ml-3 text-gray-500">
-                        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            class="w-5 h-5" viewBox="0 0 24 24">
-                            <path
-                                d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
-                            </path>
-                        </svg>
-                    </a>
-                    <a class="ml-3 text-gray-500">
-                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-                        </svg>
-                    </a>
-                    <a class="ml-3 text-gray-500">
-                        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
-                            <path stroke="none"
-                                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
-                            </path>
-                            <circle cx="4" cy="4" r="2" stroke="none"></circle>
-                        </svg>
-                    </a>
+
+
                 </span>
             </div>
         </div>
