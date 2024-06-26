@@ -38,7 +38,7 @@
  ``` 
  4. Jika sudah masuk ke folder LindungiSiKecil-2- maka selanjutnya ketik 
  ```bash
- composer instal
+ composer install
  ``` 
  5. Jika sudah maka akan muncul folder dengan nama “vendor” di dalam folder LindungiSiKecil-2- 7 
  
