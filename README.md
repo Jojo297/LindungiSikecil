@@ -44,25 +44,32 @@
  
  7. Jika folder sudah muncul selanjutnya ketik di Git bash 
 ```bash
- “cp .env.example .env”
+ cp .env.example .env
  ```
   maka akan muncul file .env didalam folder LindungiSiKecil-2-
   
  8. Selanjutnya ketik di Git bash 
  ```bash
- “npm install”
+ npm install
  ``` 
  9. Lalu ketik di Git bash 
  ```bash
- “npm install -D tailwindcss postcss autoprefixer” 
+ npm install -D tailwindcss postcss autoprefixer 
  ```
   
  10. Setelah itu jalankan laragon dan buka phpmyadmin 
  11. Lalu import file dengan nama lsk.sql yang ada didalam folder “LindungiSiKecil-2- /db” 
- 12. Jika sudah selanjutnya kita hubungkan ke database dengan cara buka file .env ubah “DB_DATABASE=laravel” menjadi “DB_DATABASE=lsk” 
- 13. Ketik “code .” untuk membuka kode editor lalu buka terminal 
+ 12. Jika sudah selanjutnya kita hubungkan ke database dengan cara buka file .env ubah “DB_DATABASE=laravel” menjadi 
+```bash
+“DB_DATABASE=lsk”
+``` 
+ 14. Ketik 
+```bash
+code .
+``` 
+untuk membuka kode editor lalu buka terminal 
  
- 14. Jika sudah maka run dengan mengetik 
+ 15. Jika sudah maka run dengan mengetik 
 ```bash
 php artisan serve
 ```
