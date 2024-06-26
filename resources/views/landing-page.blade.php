@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 
 <body class="">
@@ -17,7 +16,8 @@
             <a href="{{ route('user.dashboard') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="{{ asset('image/logoLindungiSiKecil-removebg-preview2.png') }}" class="h-14"
                     alt="Flowbite Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap">LindungiSiKecil</span>
+                <span
+                    class="self-center text-lg font-semibold whitespace-nowrap md:text-xl lg:text-2xl">LindungiSiKecil</span>
             </a>
 
             <div class="hidden flex-row-reverse md:flex lg:flex">
@@ -27,19 +27,20 @@
                 <a href="#home" class="text-slate-800 hover:text-red-500 duration-300 font-medium px-3">Beranda</a>
             </div>
 
-            <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <div class="flex items-center md:order-2 space-x-3 rtl:space-x-reverse">
+                <a href="{{ route('login') }}"
+                    class="relative items-center justify-center p-0.5 mr-3 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group hidden lg:inline-flex">
+                    Masuk
+                </a>
 
-                <div class="justify-between">
-                    <a href="{{ route('login') }}"
-                        class="relative items-center justify-center p-0.5 mr-3 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group hidden lg:inline-flex">
-                        Masuk</a>
-
-                    <a href="/daftar"
-                        class="relative inline-flex items-center justify-center p-0.5  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                        <span
-                            class="relative px-5 py-2.5 transition-all ease-in duration-300 bg-neutral-50 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Daftar</span></a>
-                </div>
-                {{-- button humburger --}}
+                <a href="/daftar"
+                    class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 ">
+                    <span
+                        class="relative px-3 py-2.5 transition-all ease-in duration-300 bg-neutral-50 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0 md:px-5 lg:px-5">
+                        Daftar
+                    </span>
+                </a>
+                {{-- button hamburger --}}
                 <button data-collapse-toggle="navbar-hamburger" type="button"
                     class="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden lg:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                     aria-controls="navbar-hamburger" aria-expanded="false" onclick="toggleNavbar()">
@@ -78,6 +79,34 @@
                 </ul>
             </div>
         </div>
+    </nav>
+
+
+    <!-- Dropdown menu -->
+    <div class="p-1">
+        <div class="hidden fixed top-0 z-10 w-full mt-[90px] md:hidden lg:hidden" id="navbar-hamburger">
+            <ul
+                class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 transition duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700">
+                <li>
+                    <a href="#home"
+                        class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:bg-blue-600"
+                        aria-current="page">Beranda</a>
+                </li>
+                <li>
+                    <a href="#about"
+                        class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Tentang</a>
+                </li>
+                <li>
+                    <a href="#feature"
+                        class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Fitur</a>
+                </li>
+                <li>
+                    <a href="#team"
+                        class="block py-2 px-3 text-gray-900 rounded hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Tim</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     </nav>
     {{-- navbar selesai --}}
 
