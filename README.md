@@ -1,66 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Alat Pengembangan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ - Visual Studio Code
+ - Laragon
+ 
+ Module dalam laragon yang digunakan dalam tahap Implementasi :
+ - PHP : Php version 8.2 atau versi lebih atasnya  
+ - Apache : Apache version httpd-2.4.54 
+ - Mysql : Mysql version 8.0.30 
+ - Phpmyadmin : phpmyadmin ver 5.2.1  
+ - Internet Browser (Microsoft Edge , Google Chrome , Firefox)
 
-## About Laravel
+# Installasi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## A. Langkah – langkah penginstalan sistem
+			
+1. Install Git sesuai dengan sistem operasi anda di https://git-scm.com/ 
+2. setelah penginstalan Git install Node.js di https://nodejs.org/ 
+3. lalu install Composer di https://getcomposer.org/download/ 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+4. setelah melakukan ke tiga penginstallan diatas selanjutnya clone repository
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+ 
 
-## Learning Laravel
+## B. Langkah – langkah clone repository
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+ 1. Buka gitbash lalu ketik 
+ ```bash
+ cd c:\laragon\www
+ ``` 
+ 2. Jika sudah ketik 
+  ```bash
+ git clone https://github.com/Jojo297/LindungiSikecil-2-.git 
+ ```
+ 3. Lalu cek di folder c:\laragon\www jika sudah muncul folder dengan nama LindungiSiKecil-2- ketik di git bash 
+ ```bash
+ cd \LindungiSiKecil-2-
+ ``` 
+ 4. Jika sudah masuk ke folder LindungiSiKecil-2- maka selanjutnya ketik 
+ ```bash
+ composer instal
+ ``` 
+ 5. Jika sudah maka akan muncul folder dengan nama “vendor” di dalam folder LindungiSiKecil-2- 7 
+ 
+ 7. Jika folder sudah muncul selanjutnya ketik di Git bash 
+```bash
+ “cp .env.example .env”
+ ```
+  maka akan muncul file .env didalam folder LindungiSiKecil-2-
+  
+ 8. Selanjutnya ketik di Git bash 
+ ```bash
+ “npm install”
+ ``` 
+ 9. Lalu ketik di Git bash 
+ ```bash
+ “npm install -D tailwindcss postcss autoprefixer” 
+ ```
+  
+ 10. Setelah itu jalankan laragon dan buka phpmyadmin 
+ 11. Lalu import file dengan nama lsk.sql yang ada didalam folder “LindungiSiKecil-2- /db” 
+ 12. Jika sudah selanjutnya kita hubungkan ke database dengan cara buka file .env ubah “DB_DATABASE=laravel” menjadi “DB_DATABASE=lsk” 
+ 13. Ketik “code .” untuk membuka kode editor lalu buka terminal 
+ 
+ 14. Jika sudah maka run dengan mengetik 
+```bash
+php artisan serve
+```
+ lalu buka satu terminal lagi dan ketik
+```bash
+ npm run dev
+ ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
