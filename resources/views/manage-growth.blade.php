@@ -97,7 +97,7 @@
                     {{-- tambah data selesai --}}
 
                     {{-- table --}}
-                    <div class="bg-white mt-10 py-5 px-5 shadow-md rounded-lg">
+                    <div class="bg-white mt-10 py-5 px-5 shadow-md rounded-lg overflow-x-auto">
                         <table id="myTable" class="stripe display compact order-column" style="width:100%">
                             <thead align="center">
                                 <tr>
