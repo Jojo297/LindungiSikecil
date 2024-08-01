@@ -12,7 +12,14 @@
         .chart-canvas {
             display: block;
             width: 100% !important;
-            height: auto !important;
+            height: 400px !important;
+
+            @media (max-width: 600px) {
+                .chart-canvas {
+                    height: 600px !important;
+                    /* Increased height for smaller screens */
+                }
+            }
         }
     </style>
 
